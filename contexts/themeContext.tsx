@@ -17,11 +17,15 @@ const useThemeContext = () => {
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
-    if (theme == null) {
-      setIsDarkMode(false);
-    }
-    if (theme === "light") setIsDarkMode(false);
-    if (theme === "dark") setIsDarkMode(true);
+    // if (theme == null) {
+    //   setIsDarkMode(false);
+    // }
+    // if (theme === "light") setIsDarkMode(false);
+    // if (theme === "dark") setIsDarkMode(true);
+
+    // temporarily set theme to always be dark
+
+    setIsDarkMode(true);
   }, []);
 
   const toggleDarkMode = () => {
