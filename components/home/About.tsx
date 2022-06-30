@@ -23,8 +23,8 @@ const About: React.FC<{
       >
         <h2>About Me.</h2>
         <p>
-          Hi! My name's Stanley, a freelance web3.0 developer. Experienced in
-          building, designing and scaling high quality websites that utilizes
+          Hi! My name&apos;s Stanley, a freelance web3.0 developer. Experienced
+          in building, designing and scaling high quality websites that utilizes
           web3 technology.
           <br />
           <br />

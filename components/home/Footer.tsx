@@ -10,23 +10,35 @@ const Footer = () => {
 
   return (
     <Container colors={colors} id="contact">
-      <h2>Like What You're Seeing?</h2>
-      <p>Don't hesitate to contact me for inquiries or questions</p>
+      <h2>Like What You&apos;re Seeing?</h2>
+      <p>Don&apos;t hesitate to contact me for inquiries or questions</p>
       <div className="socials">
         <ContentBox backgroundColor={colors.foreground1}>
-          <a href="https://github.com/stanleygarbo" target="_blank">
+          <a
+            href="https://github.com/stanleygarbo"
+            target="_blank"
+            rel="noreferrer"
+          >
             <FiGithub size={20} />
             @stanleygarbo
           </a>
         </ContentBox>
         <ContentBox backgroundColor={colors.foreground1}>
-          <a href="mailto:stanleygarbo@gmail.com" target="_blank">
+          <a
+            href="mailto:stanleygarbo@gmail.com"
+            target="_blank"
+            rel="noreferrer"
+          >
             <HiOutlineMail size={20} />
             stanleygarbo@gmail.com
           </a>
         </ContentBox>
         <ContentBox backgroundColor={colors.foreground1}>
-          <a href="https://twitter.com/digital_mad_lad" target="_blank">
+          <a
+            href="https://twitter.com/digital_mad_lad"
+            target="_blank"
+            rel="noreferrer"
+          >
             <FiTwitter size={20} />
             @digital_mad_lad
           </a>

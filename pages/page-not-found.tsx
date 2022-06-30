@@ -19,7 +19,7 @@ const PageNotFound: NextPage = () => {
         <h1>
           <span className="error-code">404</span>
           <span className="error-message">
-            Are you lost baby girl? This page doesn't exist
+            Are you lost baby girl? This page doesn&apos;t exist
           </span>
         </h1>
       </Container>
