@@ -74,7 +74,7 @@ const NavBar: React.FC = () => {
         >
           <ul>
             <li>
-              <Link onClick={onClickHandler} href="/#hero">
+              <Link onClick={onClickHandler} href="#hero">
                 <a>
                   <span>01 </span>
                   Hero
@@ -82,7 +82,7 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={onClickHandler} href="/#about">
+              <Link onClick={onClickHandler} href="#about">
                 <a>
                   <span>02 </span>
                   About
@@ -90,7 +90,7 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={onClickHandler} href="/#projects">
+              <Link onClick={onClickHandler} href="#projects">
                 <a>
                   <span>03 </span>
                   Projects
@@ -98,7 +98,7 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={onClickHandler} href="/#contact">
+              <Link onClick={onClickHandler} href="#contact">
                 <a>
                   <span>04 </span>
                   Contact
