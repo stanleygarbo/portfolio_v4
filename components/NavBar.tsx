@@ -74,32 +74,32 @@ const NavBar: React.FC = () => {
         >
           <ul>
             <li>
-              <Link onClick={onClickHandler} href="#hero">
-                <a>
+              <Link href="#hero">
+                <a onClick={onClickHandler}>
                   <span>01 </span>
                   Hero
                 </a>
               </Link>
             </li>
             <li>
-              <Link onClick={onClickHandler} href="#about">
-                <a>
+              <Link href="#about">
+                <a onClick={onClickHandler}>
                   <span>02 </span>
                   About
                 </a>
               </Link>
             </li>
             <li>
-              <Link onClick={onClickHandler} href="#projects">
-                <a>
+              <Link href="#projects">
+                <a onClick={onClickHandler}>
                   <span>03 </span>
                   Projects
                 </a>
               </Link>
             </li>
             <li>
-              <Link onClick={onClickHandler} href="#contact">
-                <a>
+              <Link href="#contact">
+                <a onClick={onClickHandler}>
                   <span>04 </span>
                   Contact
                 </a>
