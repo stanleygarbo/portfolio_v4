@@ -253,8 +253,11 @@ const Container = styled.div<{
             width: 0%;
             background: ${colors.foreground1};
 
-            animation: goRight 1.4s cubic-bezier(0.65, 0.05, 0.36, 1)
-              ${shouldDelay ? ".7s" : isLoaded ? "1s" : ""};
+            ${isLoaded &&
+            css`
+              animation: goRight 1.4s cubic-bezier(0.65, 0.05, 0.36, 1)
+                ${shouldDelay ? ".7s" : isLoaded ? "1s" : ""};
+            `}
 
             @keyframes goRight {
               0% {
