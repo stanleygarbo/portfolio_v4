@@ -20,10 +20,8 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
     console.log(isWindowLoaded);
     if (isWindowLoaded) {
       (async () => {
-        if (shouldDelay) {
-          await wait(1400);
-          setShouldShow(true);
-        }
+        await wait(1400);
+        setShouldShow(true);
       })();
 
       const tl = gsap.timeline();
@@ -37,7 +35,7 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
         {
           y: 0,
           skewX: 0,
-          delay: shouldDelay ? 1.7 : 0.3,
+          delay: 1.7,
           stagger: {
             amount: 0.3,
           },
@@ -82,7 +80,7 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
         }
       );
     }
-  }, [shouldDelay, isWindowLoaded]);
+  }, [isWindowLoaded]);
 
   return (
     <Container
@@ -256,7 +254,7 @@ const Container = styled.div<{
             background: ${colors.foreground1};
 
             animation: goRight 1.4s cubic-bezier(0.65, 0.05, 0.36, 1)
-              ${shouldDelay ? "1s" : ""};
+              ${shouldDelay ? ".7s" : isLoaded ? "1s" : ""};
 
             @keyframes goRight {
               0% {

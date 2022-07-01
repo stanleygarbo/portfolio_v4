@@ -19,11 +19,12 @@ import cache from "memory-cache";
 const Home: NextPage<{
   shouldDelay: boolean;
   projects: ISingleProjectItem[];
-}> = ({ shouldDelay, projects }) => {
+  hasBeenAccessedBefore: boolean;
+}> = ({ shouldDelay, projects, hasBeenAccessedBefore }) => {
   const [aboutSectionHeight, setAboutSectionHeight] = useState<number>(0);
   const [ProjectsSectionHeight, setProjectsSectionHeight] = useState<number>(0);
 
-  const [isWindowLoaded, setIsWindowLoaded] = useState(false);
+  const [isWindowLoaded, setIsWindowLoaded] = useState(hasBeenAccessedBefore);
 
   const { setCustomBodyColor, setCustomAccent, setCustomForeground } =
     useTheme();
@@ -79,6 +80,7 @@ const Home: NextPage<{
 
   useEffect(() => {
     window.addEventListener("load", loadHandler);
+    console.log(hasBeenAccessedBefore);
 
     return () => window.removeEventListener("load", loadHandler);
   }, []);
@@ -117,16 +119,25 @@ const Home: NextPage<{
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const referrer = ctx.req.headers.referer?.split("/").reverse()[0];
+
   const pathname = "/" + ctx.req.headers.referer?.split("/").reverse()[0];
+  console.log(referrer !== undefined, 125, referrer);
 
   const c = cache.get(`ALL_PROJECTS`);
 
   if (c) {
-    if (pathname) {
+    if (referrer !== undefined) {
       await wait(500);
     }
 
-    return c;
+    return {
+      props: {
+        hasBeenAccessedBefore: referrer !== undefined,
+        shouldDelay: referrer !== undefined,
+        ...c,
+      },
+    };
   } else {
     const query = `
     query {
@@ -157,19 +168,23 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     projects.sort((a: any, b: any) => a.projectNumber - b.projectNumber);
 
     const data = {
-      props: {
-        shouldDelay: !!pathname,
-        projects,
-      },
+      projects,
     };
 
     cache.put(`ALL_PROJECTS`, data, 5 * 1000 * 60 * 60);
 
-    if (pathname) {
+    if (referrer !== undefined) {
       await wait(500);
     }
 
-    return data;
+    return {
+      props: {
+        hasBeenAccessedBefore: referrer !== undefined,
+        shouldDelay: referrer !== undefined,
+
+        ...data,
+      },
+    };
   }
 }
 
