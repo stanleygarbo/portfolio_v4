@@ -90,8 +90,12 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
       shouldDelay={shouldDelay}
       shouldShow={shouldShow}
       isDarkMode={isDarkMode}
+      isLoaded={isWindowLoaded}
       id="hero"
     >
+      <div className="cover">
+        <i className="cover__text">Loading the greatness...</i>
+      </div>
       <div className="wrapper">
         <div className="wrapper__obj">
           <div className="wrapper__obj__cover">
@@ -136,11 +140,50 @@ const Container = styled.div<{
   shouldDelay: boolean;
   shouldShow: boolean;
   isDarkMode: boolean;
+  isLoaded: boolean;
 }>`
-  ${({ colors, shouldDelay, isDarkMode, shouldShow }) => css`
+  ${({ colors, shouldDelay, isDarkMode, shouldShow, isLoaded }) => css`
     height: 100vh;
     width: 100%;
     z-index: 1;
+
+    .cover {
+      background-color: ${colors.accent};
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      bottom: 0;
+
+      z-index: 500;
+
+      transition: height 0.7s;
+      transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ${!isLoaded
+        ? css`
+            height: 100%;
+          `
+        : css`
+            height: 0%;
+            top: 0;
+          `}
+
+      &__text {
+        color: #fff;
+        opacity: 0;
+        transition: opacity 0.5s;
+        transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+        font-size: 20px;
+
+        ${!isLoaded &&
+        css`
+          opacity: 1;
+        `}
+      }
+    }
 
     .wrapper {
       height: 100%;
@@ -213,7 +256,7 @@ const Container = styled.div<{
             background: ${colors.foreground1};
 
             animation: goRight 1.4s cubic-bezier(0.65, 0.05, 0.36, 1)
-              ${shouldDelay ? ".7s" : ""};
+              ${shouldDelay ? "1s" : ""};
 
             @keyframes goRight {
               0% {
