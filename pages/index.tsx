@@ -84,6 +84,7 @@ const Home: NextPage<{
   }, []);
 
   const loadHandler = () => {
+    console.log("test");
     setIsWindowLoaded(true);
   };
 

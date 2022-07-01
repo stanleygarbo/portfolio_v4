@@ -17,6 +17,7 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
   const router = useRouter();
 
   useEffect(() => {
+    console.log(isWindowLoaded);
     if (isWindowLoaded) {
       (async () => {
         if (shouldDelay) {
