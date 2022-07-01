@@ -20,8 +20,13 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
     console.log(isWindowLoaded);
     if (isWindowLoaded) {
       (async () => {
-        await wait(1400);
-        setShouldShow(true);
+        if (shouldDelay) {
+          await wait(1400);
+          setShouldShow(true);
+        } else {
+          await wait(1700);
+          setShouldShow(true);
+        }
       })();
 
       const tl = gsap.timeline();
@@ -80,7 +85,7 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
         }
       );
     }
-  }, [isWindowLoaded]);
+  }, [isWindowLoaded, shouldDelay]);
 
   return (
     <Container
