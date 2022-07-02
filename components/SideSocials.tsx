@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
-import { FiGithub, FiFacebook } from "react-icons/fi";
+import { FiGithub, FiFacebook, FiTwitter } from "react-icons/fi";
 
 const SideSocials: React.FC = () => {
   const { colors } = useTheme();
@@ -10,10 +10,22 @@ const SideSocials: React.FC = () => {
   return (
     <Container colors={colors}>
       <div className="icon">
-        <FiGithub size={25} />
+        <a
+          href="https://github.com/stanleygarbo"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <FiGithub size={25} />
+        </a>
       </div>
       <div className="icon">
-        <FiFacebook size={25} />
+        <a
+          href="https://twitter.com/digital_mad_lad"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <FiTwitter size={23} />
+        </a>
       </div>
       <div className="vert-line"></div>
     </Container>
@@ -34,7 +46,11 @@ const Container = styled.div<{ colors: IColors }>`
 
     .icon {
       margin-bottom: 20px;
-      color: ${colors.customAccent ? colors.customAccent : colors.foreground1};
+      a {
+        color: ${colors.customAccent
+          ? colors.customAccent
+          : colors.foreground1};
+      }
     }
 
     .vert-line {
