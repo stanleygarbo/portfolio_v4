@@ -79,16 +79,16 @@ const Home: NextPage<{
   });
 
   useEffect(() => {
-    window.addEventListener("load", loadHandler);
-    console.log(hasBeenAccessedBefore);
+    let isMounted = true;
 
-    return () => window.removeEventListener("load", loadHandler);
-  }, []);
+    setTimeout(() => {
+      if (isMounted && !hasBeenAccessedBefore) setIsWindowLoaded(true);
+    }, 2000);
 
-  const loadHandler = () => {
-    console.log("test");
-    setIsWindowLoaded(true);
-  };
+    return () => {
+      isMounted = false;
+    };
+  }, [hasBeenAccessedBefore]);
 
   return (
     <>
@@ -121,7 +121,6 @@ const Home: NextPage<{
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const referrer = ctx.req.headers.referer?.split("/").reverse()[0];
 
-  const pathname = "/" + ctx.req.headers.referer?.split("/").reverse()[0];
   console.log(referrer !== undefined, 125, referrer);
 
   const c = cache.get(`ALL_PROJECTS`);
