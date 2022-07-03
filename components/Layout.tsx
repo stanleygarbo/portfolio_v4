@@ -25,6 +25,12 @@ const GlobalStyle = createGlobalStyle<{
   isIndexPage: boolean;
 }>`
   ${({ colors, isIndexPage }) => css`
+    @font-face {
+      font-family: VarinoNormal;
+      src: url("/fonts/Varino-Normal.otf");
+      font-weight: 500;
+    }
+
     * {
       margin: 0;
       padding: 0;

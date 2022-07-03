@@ -17,10 +17,7 @@ const About: React.FC<{
 
   return (
     <Container colors={colors} ref={containerRef} id="about">
-      <div
-        className="wrapper wrapper--about"
-        // style={{ backgroundColor: isDarkMode ? "#242424b0" : "#eeeeee4c" }}
-      >
+      <div className="wrapper wrapper--about">
         <h2>About Me.</h2>
         <p>
           Hi! My name&apos;s Stanley, a freelance web3.0 developer. Experienced
@@ -33,14 +30,11 @@ const About: React.FC<{
           amounts of traffic. One of which had gotten to 10k daily active users.
           <br />
           <br />
-          {/* Have an NFT project but not yet a website? Let me handle it so you can
-          focus on other things such as marketing, community management, etc. */}
           NFT Projects take a lot of effort in order to succeed. I allow my
-          clients to focus on other aspects such as marketing while I&apos;ll handle
-          the technicalities to aim for an optimal success rate.
+          clients to focus on other aspects such as marketing while I&apos;ll
+          handle the technicalities to aim for an optimal success rate.
         </p>
       </div>
-      {/* <img className="flower" id="flower" src="/f.png" alt="" /> */}
     </Container>
   );
 };
@@ -98,6 +92,7 @@ const Container = styled.div<{ colors: IColors }>`
 
       @media (max-width: 973px) {
         flex-direction: column;
+        padding: 50px 0;
 
         h2 {
           margin-bottom: 50px;

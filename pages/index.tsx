@@ -83,7 +83,7 @@ const Home: NextPage<{
 
     setTimeout(() => {
       if (isMounted && !hasBeenAccessedBefore) setIsWindowLoaded(true);
-    }, 2000);
+    }, 0);
 
     return () => {
       isMounted = false;
@@ -125,8 +125,6 @@ const Home: NextPage<{
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const referrer = ctx.req.headers.referer?.split("/").reverse()[0];
-
-  console.log(referrer !== undefined, 125, referrer);
 
   const c = cache.get(`ALL_PROJECTS`);
 

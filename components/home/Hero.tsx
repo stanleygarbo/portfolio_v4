@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { IColors } from "../../interfaces/IColors";
 import { wait } from "../../util/wait";
+import ContentBox from "../ContentBox";
 import RoundText from "./RoundText";
 
 const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
@@ -29,59 +30,35 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
         }
       })();
 
-      const tl = gsap.timeline();
-
-      tl.fromTo(
-        ".wrapper__obj__title__line__txt",
+      gsap.fromTo(
+        ".wrapper__text__title__first__name",
         {
-          y: 70,
-          skewX: 7,
+          y: 100,
         },
         {
           y: 0,
-          skewX: 0,
-          delay: 1.7,
-          stagger: {
-            amount: 0.3,
-          },
-        }
-      );
-
-      const tl2 = gsap.timeline();
-
-      tl2.fromTo(
-        ".wrapper__obj__desc",
-        {
-          y: 50,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
           delay: 2.3,
         }
       );
-
       gsap.fromTo(
-        ".wrapper__obj__cta",
+        ".wrapper__text__title__last__name",
         {
-          opacity: 0,
+          y: 100,
         },
         {
-          opacity: 1,
+          y: 0,
           delay: 2.5,
         }
       );
+
       gsap.fromTo(
-        ".wrapper__obj__round-txt",
+        ".wrapper__text__cont__paragraph",
         {
-          opacity: 0,
-          scale: 0,
+          y: 95,
         },
         {
-          opacity: 1,
-          scale: 1,
-          delay: 2.5,
+          y: 0,
+          delay: 2.7,
         }
       );
     }
@@ -100,38 +77,29 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
         <i className="cover__text">Loading the greatness...</i>
       </div>
       <div className="wrapper">
-        <div className="wrapper__obj">
-          <div className="wrapper__obj__cover">
-            <div className="wrapper__obj__cover__animate"></div>
-          </div>
-          <div className="wrapper__obj__round-txt">
-            <RoundText />
-          </div>
-
-          <h1 className="wrapper__obj__title">
-            <div className="wrapper__obj__title__line">
-              <div className="wrapper__obj__title__line__txt">Stanley</div>
-            </div>
-            <section className="wrapper__obj__title__line">
-              <div className="wrapper__obj__title__line__txt">
-                <div className="wrapper__obj__title__horiz"></div> Garbo
-              </div>
-            </section>
-          </h1>
-          <p className="wrapper__obj__desc">
-            A frontend web3 developer specializing in developing and ocasionally
-            designing stuff that interacts with smart contracts.
-            {/* Hi! I&apos;m Stanley — a freelancer and web developer. I build
-            high-quality stuff for the web. */}
-          </p>
-          <button
-            className="wrapper__obj__cta"
-            onClick={() => router.push("/projects/axie-scholar-tracker")}
+        <div className="wrapper__img">
+          <div className="wrapper__img__animate"></div>
+        </div>
+        <div className="wrapper__text">
+          <h1
+            style={{ fontFamily: "VarinoNormal" }}
+            className="wrapper__text__title"
           >
-            CONTACT
-          </button>
+            <div className="wrapper__text__title__first">
+              <div className="wrapper__text__title__first__name">STANLEY</div>
+            </div>
 
-          <div className="wrapper__obj__bubble">{/* <GradientBubble /> */}</div>
+            <div className="wrapper__text__title__last">
+              <div className="wrapper__text__title__last__name">GARBO</div>
+            </div>
+          </h1>
+
+          <div className="wrapper__text__cont">
+            <p className="wrapper__text__cont__paragraph">
+              I develop and ocasionally design stuff that interacts with smart
+              contracts.
+            </p>
+          </div>
         </div>
       </div>
     </Container>
@@ -189,226 +157,179 @@ const Container = styled.div<{
     }
 
     .wrapper {
-      height: 100%;
+      min-height: 100%;
       display: flex;
+      flex-direction: column;
+      padding: 20px;
       align-items: center;
       justify-content: center;
+      position: relative;
 
-      &__obj {
-        width: 400px;
-        height: 500px;
-        border-top-left-radius: 200px;
-        border-top-right-radius: 200px;
-        margin-bottom: 30px;
-        position: relative;
-        top: 0;
-        left: 0;
-        transition: 1.3s;
+      &__img {
+        position: absolute;
+        left: 20px;
 
-        &::before {
-          content: "";
-          transition: 0.3s;
-          position: absolute;
-          width: 80%;
-          height: 90%;
-
-          left: 0px;
-          bottom: 0px;
-          z-index: -1;
-
-          border: 1px solid transparent;
-          border-radius: inherit;
-
-          transition: 1.3s;
-        }
+        width: 500px;
+        height: calc(100% - 40px);
 
         ${shouldShow &&
         css`
           background-color: ${isDarkMode ? "#242424" : "#eeeeee"};
-          background-image: url("/herobg-md.webp");
+          background-image: url("/golden-hand.jpg");
           background-size: cover;
-
-          /* top: -30px; */
-          /* left: 30px; */
-
-          &::before {
-            left: -50px;
-            bottom: -30px;
-            border: 1px solid ${colors.foreground1};
-
-            @media (max-width: 950px) {
-              left: -20px;
-              bottom: -15px;
-            }
-          }
         `}
 
-        &__cover {
+        &__animate {
           position: absolute;
-
-          border-top-left-radius: 200px;
-          border-top-right-radius: 200px;
           height: 100%;
-          width: 100%;
-          overflow: hidden;
+          width: 0%;
+          background-color: ${colors.accent};
 
-          &__animate {
-            position: absolute;
-            height: 100%;
-            width: 0%;
-            background: ${colors.foreground1};
+          ${isLoaded &&
+          css`
+            animation: goRight 1.4s cubic-bezier(0.65, 0.05, 0.36, 1)
+              ${shouldDelay ? ".7s" : isLoaded ? "1s" : ""};
+          `}
 
-            ${isLoaded &&
-            css`
-              animation: goRight 1.4s cubic-bezier(0.65, 0.05, 0.36, 1)
-                ${shouldDelay ? ".7s" : isLoaded ? "1s" : ""};
-            `}
-
-            @keyframes goRight {
-              0% {
-                width: 0%;
-              }
-              50% {
-                width: 100%;
-              }
-              100% {
-                width: 0%;
-                right: 0;
-              }
+          @keyframes goRight {
+            0% {
+              width: 0%;
+            }
+            50% {
+              width: 100%;
+            }
+            100% {
+              width: 0%;
+              right: 0;
             }
           }
         }
+      }
 
-        &__bubble {
-          position: absolute;
-          bottom: -120px;
-          right: -80px;
+      &__text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
 
-          z-index: -2;
-        }
+        &__cont {
+          overflow: hidden;
+          margin-right: -40px;
+          position: relative;
 
-        &__round-txt {
-          position: absolute;
-          top: 40px;
-          right: -20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100px;
-          height: 100px;
+          top: -250px;
 
-          &::before {
-            content: "";
-            position: absolute;
-
-            width: 5px;
-            height: 5px;
-            border-radius: 5px;
-            background: ${colors.foreground1};
+          p {
+            color: ${colors.foreground1}99;
+            font-family: "Syne";
+            letter-spacing: 1px;
+            font-weight: 300;
+            margin-top: 20px;
+            max-width: 400px;
+            font-size: 17px;
+            text-align: center;
           }
         }
 
         &__title {
-          font-weight: 400;
-          font-size: 60px;
-          position: relative;
-          left: -150px;
-          top: 50px;
-          color: ${colors.foreground1};
-          text-shadow: 10px 10px 20px ${colors.background1};
-
-          &__line {
-            overflow: hidden;
-            height: 90px;
-
-            &__txt {
-              display: flex;
-
-              display: flex;
-              align-items: center;
-            }
-          }
-
-          &__horiz {
-            width: 50px;
-            height: 3px;
-            background: ${colors.accent};
-            margin-right: 50px;
-          }
-        }
-
-        &__desc {
-          position: absolute;
-          bottom: 50px;
-          left: -150px;
-          font-size: 16px;
           font-weight: 500;
-          max-width: 350px;
+          font-size: 90px;
+          position: relative;
           color: ${colors.foreground1};
-          text-shadow: 2px 2px 10px ${colors.background1};
+          /* text-shadow: 10px 10px 20px ${colors.background1}; */
+          font-family: "VarinoNormal";
+          letter-spacing: 20px;
+          line-height: 120px;
+          position: relative;
+          top: 100px;
+          left: 50px;
+
+          display: flex;
+          flex-direction: column;
+
+          &__last {
+            margin-left: 160px;
+          }
+
+          &__first,
+          &__last {
+            overflow: hidden;
+          }
         }
 
-        &__cta {
-          background: ${colors.accent};
-          color: #fff;
-          position: absolute;
-
-          right: -30px;
-          bottom: -10px;
-          padding: 12px 20px;
-          border: none;
-
-          cursor: pointer;
-
-          font-weight: 700;
-
-          letter-spacing: 2px;
-        }
-
-        @media (max-width: 950px) {
-          width: 250px;
-          height: 320px;
-
-          &__round-txt {
-            right: -25px;
-            top: 25px;
-            height: 80px;
-            width: 80px;
+        @media (max-width: 1090px) {
+          &__cont {
+            margin-right: 10px;
           }
 
           &__title {
+            left: 0px;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 850px) {
+      height: fit-content;
+
+      .wrapper {
+        padding: 0px;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        &__img {
+          width: 100%;
+          height: 400px;
+          position: relative;
+          left: 0;
+          top: 0;
+        }
+
+        &__text {
+          align-items: flex-start;
+
+          &__title {
+            top: 0px;
+            padding: 30px;
+            font-size: 50px;
+            line-height: 60px;
+
+            &__last {
+              margin-left: 0px;
+            }
+          }
+
+          &__cont {
+            top: 0;
+            margin-right: 0;
+
+            p {
+              margin-top: 0;
+              font-size: 18px;
+              text-align: left;
+              padding: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 486px) {
+      .wrapper {
+        &__text {
+          &__title {
+            font-size: 35px;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 402px) {
+      .wrapper {
+        &__text {
+          &__title {
+            letter-spacing: 15px;
             font-size: 30px;
-            left: -100px;
-
-            &__line {
-              height: 50px;
-            }
-
-            &__horiz {
-              width: 30px;
-              margin-right: 30px;
-            }
-          }
-
-          &__desc {
-            font-size: 13px;
-            max-width: 250px;
-            /* font-weight: 300; */
-            left: -100px;
-          }
-        }
-
-        @media (max-width: 568px) {
-          &__title {
-            left: -30px;
-            font-weight: 800;
-          }
-
-          &__desc {
-            font-size: 13px;
-            max-width: 250px;
-            left: -30px;
-            bottom: 30px;
+            line-height: 50px;
           }
         }
       }
