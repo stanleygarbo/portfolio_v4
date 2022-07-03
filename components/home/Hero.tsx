@@ -177,6 +177,7 @@ const Container = styled.div<{
           background-color: ${isDarkMode ? "#242424" : "#eeeeee"};
           background-image: url("/golden-hand.jpg");
           background-size: cover;
+          background-position: center;
         `}
 
         &__animate {
