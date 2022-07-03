@@ -36,7 +36,7 @@ const About: React.FC<{
           {/* Have an NFT project but not yet a website? Let me handle it so you can
           focus on other things such as marketing, community management, etc. */}
           NFT Projects take a lot of effort in order to succeed. I allow my
-          clients to focus on other aspects such as marketing while I'll handle
+          clients to focus on other aspects such as marketing while I&apos;ll handle
           the technicalities to aim for an optimal success rate.
         </p>
       </div>
