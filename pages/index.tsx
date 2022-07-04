@@ -83,7 +83,7 @@ const Home: NextPage<{
 
     setTimeout(() => {
       if (isMounted && !hasBeenAccessedBefore) setIsWindowLoaded(true);
-    }, 0);
+    }, 2000);
 
     return () => {
       isMounted = false;
@@ -125,7 +125,6 @@ const Home: NextPage<{
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const referrer = ctx.req.headers.referer?.split("/").reverse()[0];
-
   const c = cache.get(`ALL_PROJECTS`);
 
   if (c) {
@@ -135,8 +134,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
     return {
       props: {
-        hasBeenAccessedBefore: referrer !== undefined,
-        shouldDelay: referrer !== undefined,
+        hasBeenAccessedBefore: !!referrer,
+        shouldDelay: !!referrer,
         ...c,
       },
     };
@@ -175,14 +174,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
     cache.put(`ALL_PROJECTS`, data, 5 * 1000 * 60 * 60);
 
-    if (referrer !== undefined) {
+    if (!!referrer) {
       await wait(500);
     }
 
     return {
       props: {
-        hasBeenAccessedBefore: referrer !== undefined,
-        shouldDelay: referrer !== undefined,
+        hasBeenAccessedBefore: !!referrer,
+        shouldDelay: !!referrer,
 
         ...data,
       },

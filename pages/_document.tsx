@@ -50,6 +50,12 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&display=swap"
             rel="stylesheet"
           ></link>
+          <meta name="theme-color" content="#333333" />
+          <meta name="msapplication-navbutton-color" content="#333333" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="#333333"
+          />
         </Head>
         <body>
           <Main />

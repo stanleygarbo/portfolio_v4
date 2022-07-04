@@ -1,12 +1,9 @@
 import gsap from "gsap";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { IColors } from "../../interfaces/IColors";
 import { wait } from "../../util/wait";
-import ContentBox from "../ContentBox";
-import RoundText from "./RoundText";
 
 const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
   shouldDelay,
@@ -14,8 +11,6 @@ const Hero: React.FC<{ shouldDelay: boolean; isWindowLoaded: boolean }> = ({
 }) => {
   const { colors, isDarkMode } = useTheme();
   const [shouldShow, setShouldShow] = useState(false);
-
-  const router = useRouter();
 
   useEffect(() => {
     console.log(isWindowLoaded);
@@ -177,8 +172,12 @@ const Container = styled.div<{
           background-color: ${isDarkMode ? "#242424" : "#eeeeee"};
           background-image: url("/golden-hand.jpg");
           background-size: cover;
-          background-position: center;
+          background-position: center top;
         `}
+
+        @media (min-width: 1358px) {
+          width: 37%;
+        }
 
         &__animate {
           position: absolute;
@@ -283,6 +282,14 @@ const Container = styled.div<{
           position: relative;
           left: 0;
           top: 0;
+
+          @media (min-height: 800px) {
+            height: 550px;
+          }
+
+          @media (min-height: 900px) {
+            height: 800px;
+          }
         }
 
         &__text {
