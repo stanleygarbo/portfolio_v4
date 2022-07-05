@@ -51,6 +51,7 @@ const Container = styled.div<{ colors: IColors }>`
     max-width: 1300px;
     margin: 45px auto;
     padding: 0 150px;
+    padding-bottom: 45px;
 
     .inner {
       margin-left: auto;
