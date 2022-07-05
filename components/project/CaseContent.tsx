@@ -65,7 +65,7 @@ const Container = styled.div<{ colors: IColors }>`
       width: 100%;
       position: relative;
       padding-top: 60px;
-      padding-bottom: 100px;
+      padding-bottom: 50px;
 
       /* position: relative; */
       /* min-height: 650px; */
