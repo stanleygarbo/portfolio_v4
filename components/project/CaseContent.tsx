@@ -73,7 +73,7 @@ const Container = styled.div<{ colors: IColors }>`
       span {
         overflow: unset !important;
         img {
-          box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.15);
         }
       }
     }
