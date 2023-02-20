@@ -22,8 +22,9 @@ const About: React.FC<{
         <p>
           Hello! My name&apos;s Stanley, a 1st-year Computer Science student.
           Along my studies, I develop applications for communities or for my
-          clients, giving me much needed experience on what it's like launching,
-          maintaining, and scaling digital products in real-world environments.
+          clients, giving me much needed experience on what it&apos;s like
+          launching, maintaining, and scaling digital products in real-world
+          environments.
           <br />
           <br />
           One of the community-loved projects I made was a blockchain-based
