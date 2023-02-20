@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import AllContextProvider from "../contexts/AllContextProvider";
 import "@fontsource/poppins";
 import "@fontsource/syne";
+import "@fontsource/inter";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

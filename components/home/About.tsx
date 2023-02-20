@@ -20,19 +20,24 @@ const About: React.FC<{
       <div className="wrapper wrapper--about">
         <h2>About Me.</h2>
         <p>
-          Hi! My name&apos;s Stanley, a freelance web3.0 developer. Experienced
-          in building, designing and scaling high quality websites that utilizes
-          web3 technology.
+          Hello! My name&apos;s Stanley, a 1st-year Computer Science student.
+          Along my studies, I develop applications for communities or for my
+          clients, giving me much needed experience on what it's like launching,
+          maintaining, and scaling digital products in real-world environments.
           <br />
           <br />
-          I have built personal projects which provide specific solutions to
-          specific blockchain gaming communities that had gained tremendous
-          amounts of traffic. One of which had gotten to 10k daily active users.
+          One of the community-loved projects I made was a blockchain-based
+          asset tracker for a certain NFT game. The app had reached 168k users.
+          Since this was the first project I built that had actual users, I
+          faced a few problems which I ended up learning a lot about.
+          {/* <br />
           <br />
-          <br />
-          NFT Projects take a lot of effort in order to succeed. I allow my
-          clients to focus on other aspects such as marketing while I&apos;ll
-          handle the technicalities to aim for an optimal success rate.
+          Please read the stories below to learn more, it contains all the
+          problems I faced, what I did to solve those problems and what wish I
+          should've done looking back at it after a year. */}
+          {/* I have built personal projects which provide specific solutions
+          to specific blockchain gaming communities that had gained tremendous
+          amounts of traffic. One of which had gotten to 10k daily active users. */}
         </p>
       </div>
     </Container>
@@ -87,7 +92,9 @@ const Container = styled.div<{ colors: IColors }>`
       p {
         color: ${colors.foreground1}99;
         /* padding-top: 40px; */
-        max-width: 480px;
+        max-width: 600px;
+        font-size: 20px;
+        font-weight: 400;
       }
 
       @media (max-width: 973px) {

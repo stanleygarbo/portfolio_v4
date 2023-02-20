@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle<{
       padding: 0;
       box-sizing: border-box;
       /* transition: 0.3s; */
+      font-family: "Poppins", sans-serif;
     }
 
     body {
@@ -43,7 +44,6 @@ const GlobalStyle = createGlobalStyle<{
         Noto Sans, sans-serif, "Segoe UI", Helvetica, Arial, "Apple Color Emoji",
         "Segoe UI Emoji"; */
       /* font-family: GT Sectra Display, Times, Georgia, serif; */
-      font-family: "Poppins", sans-serif;
       background: ${colors.customBodyColor
         ? colors.customBodyColor
         : colors.background1};

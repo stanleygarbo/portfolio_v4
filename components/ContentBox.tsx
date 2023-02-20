@@ -3,7 +3,11 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { IContentBox } from "../interfaces/IContentBox";
 
-const ContentBox: React.FC<IContentBox> = ({ children, backgroundColor }) => {
+const ContentBox: React.FC<IContentBox> = ({
+  children,
+  backgroundColor,
+  ...props
+}) => {
   const [isShown, setIsShown] = useState<boolean>(false);
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -26,7 +30,7 @@ const ContentBox: React.FC<IContentBox> = ({ children, backgroundColor }) => {
   );
 
   return (
-    <Container ref={containerRef}>
+    <Container ref={containerRef} {...props}>
       <div
         style={{ background: backgroundColor }}
         className={`content-box-cover ${

@@ -1,16 +1,20 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IButtonLink } from "../interfaces/IButtonLink";
 import { IColors } from "../interfaces/IColors";
 
-const ButtonLink: React.FC<IButtonLink> = ({ text, href }) => {
+const ButtonLink: React.FC<IButtonLink> = ({ text, href, style }) => {
   const { colors } = useTheme();
+  const r = useRouter();
 
   return (
     <Link href={href} passHref>
-      <Container colors={colors}>{text}</Container>
+      <Container colors={colors} style={style}>
+        {text}
+      </Container>
     </Link>
   );
 };

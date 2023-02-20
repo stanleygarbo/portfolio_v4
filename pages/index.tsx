@@ -15,6 +15,7 @@ import {
   ISingleProjectItem,
 } from "../interfaces/IContentfulAPI";
 import cache from "memory-cache";
+import HeroSection from "../components/home/HeroSection";
 
 const Home: NextPage<{
   shouldDelay: boolean;
@@ -103,7 +104,8 @@ const Home: NextPage<{
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <ScrollContainer id="my-scrollbar" onScroll={handleScroll}> */}
-      <Hero shouldDelay={shouldDelay} isWindowLoaded={isWindowLoaded} />
+      {/* <Hero shouldDelay={shouldDelay} isWindowLoaded={isWindowLoaded} /> */}
+      <HeroSection shouldDelay={shouldDelay} isWindowLoaded={isWindowLoaded} />
       <About setAboutSectionHeight={setAboutSectionHeight} />
       <Projects
         projects={projects}

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
+import ButtonLink from "./ButtonLink";
 
 const NavBar: React.FC = () => {
   const { colors } = useTheme();
@@ -52,13 +53,20 @@ const NavBar: React.FC = () => {
         <Link href="/" passHref>
           <a className="wrapper__logo">SG</a>
         </Link>
-        <button
-          className={`hamburger-menu  ${isMenuOpen && "hamburger-menu--open"}`}
-          onClick={onClickHandler}
-        >
-          <div className="line line-1"></div>
-          <div className="line line-2"></div>
-        </button>
+        <div className="wrapper__right">
+          <a className="wrapper__right__cta" href="">
+            Resume
+          </a>
+          <button
+            className={`hamburger-menu  ${
+              isMenuOpen && "hamburger-menu--open"
+            }`}
+            onClick={onClickHandler}
+          >
+            <div className="line line-1"></div>
+            <div className="line line-2"></div>
+          </button>
+        </div>
       </div>
       <div className={`menu-cont`}>
         <div
@@ -237,6 +245,37 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
 
     .wrapper {
       width: 100%;
+
+      a {
+      }
+
+      &__right {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        &__cta {
+          border: 1px solid
+            ${colors.customAccent ? colors.customAccent : colors.accent};
+          color: ${colors.customAccent ? colors.customAccent : colors.accent};
+          text-decoration: none;
+          padding: 10px 40px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          transition: 0.3s;
+
+          @media (max-width: 850px) {
+            display: none;
+          }
+
+          &:hover {
+            background: ${colors.customAccent
+              ? colors.customAccent
+              : colors.accent}30;
+          }
+        }
+      }
 
       @media (max-width: 500px) {
         padding: 15px 30px;

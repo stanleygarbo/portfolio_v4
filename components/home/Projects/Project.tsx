@@ -1,4 +1,5 @@
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../../contexts/themeContext";
@@ -28,6 +29,7 @@ const Project: React.FC<IProject> = ({
     setCustomForeground,
     setCustomAccentForeground,
   } = useTheme();
+  const router = useRouter();
 
   useScrollPosition(() => {
     if (ref.current) {
@@ -80,6 +82,9 @@ const Project: React.FC<IProject> = ({
       </div>
       <p>{description}</p>
       <ContentBox
+        onClick={() => {
+          router.push(`/projects/${slug}`);
+        }}
         backgroundColor={
           colors.customForeground ? colors.customForeground : colors.foreground1
         }
