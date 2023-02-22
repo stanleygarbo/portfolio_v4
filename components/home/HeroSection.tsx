@@ -143,29 +143,33 @@ const Container = styled.div<{
     // background-size: 100%;
     // background-repeat:no-repeat;
     overflow: hidden;
-    .lines{
-      display:none;
+    .lines {
+      display: none;
+    }
+
+    @media (max-height: 700px) {
+      min-height: 750px;
     }
 
     @media (max-width: 670px) {
       place-items: unset;
       align-items: center;
       padding: 30px;
-      position:relative;
-      z-index:${isLoaded ? 1 : 10000};
+      position: relative;
+      z-index: ${isLoaded ? 1 : 10000};
 
-      .hero-content{
-        position:absolute;
-        bottom:100px;
-        left:30px;
+      .hero-content {
+        position: absolute;
+        bottom: 100px;
+        left: 30px;
       }
 
-      .lines{
+      .lines {
         position: absolute;
         transform: rotate(180deg);
         height: 50%;
-        justify-self:center;
-        top:0;
+        justify-self: center;
+        top: 0;
         display: block;
       }
 
@@ -181,29 +185,48 @@ const Container = styled.div<{
       align-items: center;
       border: none;
       font-weight: 600;
-      font-size:17px;
-      margin-top: 50px;
+      font-size: 17px;
+      margin-top: 30px;
       text-transform: capitalize;
+      cursor: pointer;
+      z-index: 1;
+      transition: color 0.3s;
+      padding: 10px 20px;
+      margin-left: -20px;
 
       &::before {
         content: "";
         position: absolute;
-        right: -95%;
+        right: -40%;
         width: 35px;
         height: 35px;
         border: 2px solid ${colors.accent};
-        border-radius: 100%;
+        border-radius: 100px;
+        transition: width 0.3s;
+        z-index: -1;
       }
 
       &::after {
         content: "";
         position: absolute;
-        right: -70%;
+        right: -27%;
         width: 32px;
         height: 16px;
         background: url("/arrow.svg");
         background-repeat: no-repeat;
-        background
+      }
+
+      &:hover {
+        color: ${colors.background1};
+
+        &::before {
+          width: 140px;
+          background: ${colors.accent};
+        }
+
+        &::after {
+          filter: invert(100%);
+        }
       }
     }
 
@@ -223,16 +246,14 @@ const Container = styled.div<{
       align-items: center;
       justify-content: center;
 
-      ${
-        !isLoaded
-          ? css`
-              height: 100%;
-            `
-          : css`
-              height: 0%;
-              top: 0;
-            `
-      }
+      ${!isLoaded
+        ? css`
+            height: 100%;
+          `
+        : css`
+            height: 0%;
+            top: 0;
+          `}
 
       &__text {
         color: #fff;
@@ -241,12 +262,10 @@ const Container = styled.div<{
         transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
         font-size: 20px;
 
-        ${
-          !isLoaded &&
-          css`
-            opacity: 1;
-          `
-        }
+        ${!isLoaded &&
+        css`
+          opacity: 1;
+        `}
       }
     }
 
