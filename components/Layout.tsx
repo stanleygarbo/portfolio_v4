@@ -25,12 +25,6 @@ const GlobalStyle = createGlobalStyle<{
   isIndexPage: boolean;
 }>`
   ${({ colors, isIndexPage }) => css`
-    @font-face {
-      font-family: VarinoNormal;
-      src: url("/fonts/Varino-Normal.otf");
-      font-weight: 500;
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -40,10 +34,6 @@ const GlobalStyle = createGlobalStyle<{
     }
 
     body {
-      /* font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-        Noto Sans, sans-serif, "Segoe UI", Helvetica, Arial, "Apple Color Emoji",
-        "Segoe UI Emoji"; */
-      /* font-family: GT Sectra Display, Times, Georgia, serif; */
       background: ${colors.customBodyColor
         ? colors.customBodyColor
         : colors.background1};
