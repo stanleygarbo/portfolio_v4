@@ -106,6 +106,7 @@ const HeroSection: React.FC<{
             </div>
           </div>
         </h1>
+        <button>hire me</button>
       </div>
     </Container>
   );
@@ -132,6 +133,40 @@ const Container = styled.div<{
       padding: 30px;
     }
 
+    button {
+      position: relative;
+      background: none;
+      color: ${colors.accent};
+      display: flex;
+      align-items: center;
+      border: none;
+      font-weight: 600;
+      font-size:17px;
+      margin-top: 50px;
+      text-transform: capitalize;
+
+      &::before {
+        content: "";
+        position: absolute;
+        right: -95%;
+        width: 35px;
+        height: 35px;
+        border: 2px solid ${colors.accent};
+        border-radius: 100%;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        right: -70%;
+        width: 32px;
+        height: 16px;
+        background: url("/arrow.svg");
+        background-repeat: no-repeat;
+        background
+      }
+    }
+
     .cover {
       background-color: ${colors.accent};
       width: 100%;
@@ -148,14 +183,16 @@ const Container = styled.div<{
       align-items: center;
       justify-content: center;
 
-      ${!isLoaded
-        ? css`
-            height: 100%;
-          `
-        : css`
-            height: 0%;
-            top: 0;
-          `}
+      ${
+        !isLoaded
+          ? css`
+              height: 100%;
+            `
+          : css`
+              height: 0%;
+              top: 0;
+            `
+      }
 
       &__text {
         color: #fff;
@@ -164,10 +201,12 @@ const Container = styled.div<{
         transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
         font-size: 20px;
 
-        ${!isLoaded &&
-        css`
-          opacity: 1;
-        `}
+        ${
+          !isLoaded &&
+          css`
+            opacity: 1;
+          `
+        }
       }
     }
 
@@ -180,7 +219,7 @@ const Container = styled.div<{
         color: ${colors.foreground1};
         min-width: 750px;
         font-size: 60px;
-        font-weight: 600;
+        font-weight: 700;
         position: relative;
         // left: -50px;
 
