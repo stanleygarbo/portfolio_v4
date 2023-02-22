@@ -35,21 +35,16 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
             crossOrigin="anonymous"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
-
-          <link
-            href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&display=swap"
-            rel="stylesheet"
-          ></link>
           <meta name="theme-color" content="#333333" />
           <meta name="msapplication-navbutton-color" content="#333333" />
           <meta
