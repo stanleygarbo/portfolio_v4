@@ -45,7 +45,7 @@ const Footer = () => {
         </ContentBox>
       </div>
       <p>
-        Made with <span>❤️</span> by yours truly
+        Made with <span>❤️</span> by me
       </p>
     </Container>
   );
