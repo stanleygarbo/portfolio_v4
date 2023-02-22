@@ -69,6 +69,19 @@ const HeroSection: React.FC<{
           delay: 0.9,
         }
       );
+
+      gsap.fromTo(
+        ".hero-content__cta",
+        {
+          y: 55,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          delay: 1.1,
+          opacity: 1,
+        }
+      );
     }
   }, [isWindowLoaded, shouldDelay]);
 
@@ -81,10 +94,11 @@ const HeroSection: React.FC<{
       isDarkMode={isDarkMode}
       isLoaded={isWindowLoaded}
     >
+      <img className="lines" src="/lines.svg" alt="svg curved lines" />
       <div className="cover ">
         <i className="cover__text">Loading the greatness...</i>
       </div>
-      <div className="hero-content ">
+      <div className="hero-content">
         <div className="hero-content__intro hero-content__name">
           <div className="hero-content__intro__bullet"></div>
           Hi, I am&nbsp;<span>Stanley Garbo</span>
@@ -106,7 +120,7 @@ const HeroSection: React.FC<{
             </div>
           </div>
         </h1>
-        <button>hire me</button>
+        <button className="hero-content__cta">hire me</button>
       </div>
     </Container>
   );
@@ -125,12 +139,38 @@ const Container = styled.div<{
     z-index: 1;
     display: grid;
     place-items: center;
+    // background: url('/lines.svg');
+    // background-size: 100%;
+    // background-repeat:no-repeat;
+    overflow: hidden;
+    .lines{
+      display:none;
+    }
 
     @media (max-width: 670px) {
       place-items: unset;
-
       align-items: center;
       padding: 30px;
+      position:relative;
+      z-index:${isLoaded ? 1 : 10000};
+
+      .hero-content{
+        position:absolute;
+        bottom:100px;
+        left:30px;
+      }
+
+      .lines{
+        position: absolute;
+        transform: rotate(180deg);
+        height: 50%;
+        justify-self:center;
+        top:0;
+        display: block;
+      }
+
+      // background-size: 750px;
+      // background-position-x: center;
     }
 
     button {
