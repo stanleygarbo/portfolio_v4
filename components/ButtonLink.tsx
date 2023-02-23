@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IButtonLink } from "../interfaces/IButtonLink";
 import { IColors } from "../interfaces/IColors";
+import { isMobile } from "react-device-detect";
 
 const ButtonLink: React.FC<IButtonLink> = ({ text, href, style }) => {
   const { colors } = useTheme();
@@ -36,15 +37,18 @@ const Container = styled.a<{ colors: IColors }>`
     text-decoration: none;
     transition: 0.3s;
 
-    &:hover {
-      border-radius: 100px;
-      background: ${colors.customForeground
-        ? colors.customForeground
-        : colors.foreground1};
-      color: ${colors.customBodyColor
-        ? colors.customBodyColor
-        : colors.background1};
-    }
+    ${!isMobile &&
+    css`
+      &:hover {
+        border-radius: 100px;
+        background: ${colors.customForeground
+          ? colors.customForeground
+          : colors.foreground1};
+        color: ${colors.customBodyColor
+          ? colors.customBodyColor
+          : colors.background1};
+      }
+    `}
   `}
 `;
 
