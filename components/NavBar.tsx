@@ -206,7 +206,9 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
     }
 
     .cover {
-      background-color: ${colors.accent};
+      background-color: ${colors.background2};
+      border-bottom: 2px solid #333;
+      border-top: 2px solid #333;
       width: 100%;
       height: 0%;
       position: fixed;
@@ -226,7 +228,7 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
           `
         : css`
             height: 0%;
-            top: 0;
+            top: -4px;
           `}
 
       &__text {

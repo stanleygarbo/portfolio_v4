@@ -1,7 +1,7 @@
 const darkThemeColors = {
   foreground1: "#e2e2e2",
   background1: "#0a0909",
-  background2: "#333333",
+  background2: "#141313",
   accent: "#ffb64b",
 };
 

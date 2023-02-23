@@ -94,7 +94,7 @@ const Container = styled.div<{ colors: IColors }>`
         color: ${colors.foreground1}99;
         /* padding-top: 40px; */
         max-width: 600px;
-        font-size: 20px;
+        font-size: 17px;
         font-weight: 400;
       }
 
