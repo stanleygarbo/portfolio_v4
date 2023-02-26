@@ -94,12 +94,12 @@ const Home: NextPage<{
   return (
     <>
       <Head>
-        <title>Stanley Garbo | Freelance Web3 developer</title>
+        <title>Stanley Garbo | A software developer's portfolio</title>
         <meta
           name="description"
           content="Experienced
-          in building, designing and scaling high quality websites that utilizes
-          web3 technology."
+          in building, designing and scaling high quality web applications that utilizes both
+          web 2.0 and web 3.0 technologies."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
