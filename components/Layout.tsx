@@ -5,6 +5,7 @@ import { IColors } from "../interfaces/IColors";
 import NavBar from "./NavBar";
 import SideSocials from "./SideSocials";
 import { useRouter } from "next/router";
+import VerticalEmail from "./VerticalEmail";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { colors } = useTheme();
@@ -15,6 +16,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <GlobalStyle colors={colors} isIndexPage={router.pathname === "/"} />
       <NavBar />
       <SideSocials />
+      {router.pathname !== "/" && <VerticalEmail />}
       <main id="main">{children}</main>
     </Container>
   );
