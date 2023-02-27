@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
-import ButtonLink from "./ButtonLink";
 
 const NavBar: React.FC = () => {
   const { colors } = useTheme();
