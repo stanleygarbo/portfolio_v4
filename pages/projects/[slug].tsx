@@ -68,6 +68,7 @@ const Slug: NextPage<IPage> = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ProjectPreview
+        demoUrl={props.demoUrl}
         title={props.title}
         description={props.description}
         date={props.date}
@@ -120,6 +121,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
             product
             content
             theme
+            demoUrl
           }
         }
       }

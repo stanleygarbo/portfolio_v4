@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { IColors } from "../../interfaces/IColors";
 import { IProjectPreview } from "../../interfaces/project/IProjectPreview";
+import { BsArrowUpRight } from "react-icons/bs";
 
 const ProjectPreview: React.FC<IProjectPreview> = ({
   title,
@@ -12,14 +13,21 @@ const ProjectPreview: React.FC<IProjectPreview> = ({
   technologies,
   product,
   bannerURL,
+  demoUrl,
 }) => {
   const { colors } = useTheme();
+  console.log(demoUrl);
 
   return (
     <Container colors={colors}>
       <div className="inner">
         <h1>{title}</h1>
         <p>{description}</p>
+        {demoUrl && (
+          <a href={demoUrl} target="blank">
+            View Demo&nbsp; <BsArrowUpRight />
+          </a>
+        )}
       </div>
       <div className="metas">
         <div className="metas__item">
@@ -56,6 +64,9 @@ const Container = styled.div<{ colors: IColors }>`
     .inner {
       margin-left: auto;
       max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
 
       h1 {
         font-size: 17px;
@@ -71,6 +82,24 @@ const Container = styled.div<{ colors: IColors }>`
         color: ${colors.customForeground
           ? colors.customForeground
           : colors.foreground1};
+        margin-bottom: 30px;
+      }
+
+      a {
+        color: ${colors.foreground1};
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          background: ${colors.foreground1};
+          bottom: 0;
+        }
       }
     }
 

@@ -25,6 +25,7 @@ export interface ISingleProjectItem {
   banner: IImage;
   roundText: string;
   webNumber: string;
+  demoUrl: string;
   content: {
     caseContent: {
       headlineNumber: string;

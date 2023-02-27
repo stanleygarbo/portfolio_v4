@@ -6,4 +6,5 @@ export interface IProjectPreview {
   technologies: string;
   product: string;
   bannerURL: string;
+  demoUrl: string;
 }
