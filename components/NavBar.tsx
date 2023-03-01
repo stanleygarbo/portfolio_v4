@@ -218,6 +218,10 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
 
         &--open {
           width: 360px;
+
+          @media (max-width: 400px) {
+            width: 100%;
+          }
         }
       }
 
