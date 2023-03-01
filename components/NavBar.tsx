@@ -53,7 +53,11 @@ const NavBar: React.FC = () => {
           <a className="wrapper__logo">SG</a>
         </Link>
         <div className="wrapper__right">
-          <a className="wrapper__right__cta" href="">
+          <a
+            className="wrapper__right__cta"
+            href="/StanleyGarboResume.pdf"
+            target="blank"
+          >
             Resume
           </a>
           <button
