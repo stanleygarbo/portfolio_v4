@@ -63,7 +63,9 @@ const Slug: NextPage<IPage> = (props) => {
   return (
     <>
       <Head>
-        <title>{props.title} | Stanley Garbo | A developer's portfolio</title>
+        <title>
+          {props.title} | Stanley Garbo | A developer&apos;s portfolio
+        </title>
         <meta name="description" content={props.description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>

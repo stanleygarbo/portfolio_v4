@@ -94,7 +94,7 @@ const Home: NextPage<{
   return (
     <>
       <Head>
-        <title>Stanley Garbo | A software developer's portfolio</title>
+        <title>Stanley Garbo | A software developer&apos;s portfolio</title>
         <meta
           name="description"
           content="Experienced
