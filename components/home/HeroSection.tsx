@@ -2,6 +2,7 @@ import gsap from "gsap";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
+import { GlobalVars } from "../../GlobalVars";
 import { IColors } from "../../interfaces/IColors";
 import { wait } from "../../util/wait";
 
@@ -120,7 +121,14 @@ const HeroSection: React.FC<{
             </div>
           </div>
         </h1>
-        <button className="hero-content__cta">hire me</button>
+        <button
+          className="hero-content__cta"
+          onClick={() => {
+            window.location.href = `mailto:${GlobalVars.email}`;
+          }}
+        >
+          hire me
+        </button>
       </div>
     </Container>
   );
