@@ -53,11 +53,7 @@ const NavBar: React.FC = () => {
           <a className="wrapper__logo">SG</a>
         </Link>
         <div className="wrapper__right">
-          <a
-            className="wrapper__right__cta"
-            href="/StanleyGarboResume.pdf"
-            target="blank"
-          >
+          <a className="resume" href="/StanleyGarboResume.pdf" target="blank">
             Resume
           </a>
           <button
@@ -118,8 +114,8 @@ const NavBar: React.FC = () => {
             </li>
           </ul>
 
-          <a className="gmail" href="mailto:stanleygarbo@gmail.com">
-            stanleygarbo@gmail.com
+          <a className="resume" href="/StanleyGarboResume.pdf" target="blank">
+            Resume
           </a>
         </div>
       </div>
@@ -133,6 +129,34 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
     position: fixed;
     top: 0;
     width: 100%;
+
+    .resume {
+      border: 1px solid
+        ${colors.customAccent ? colors.customAccent : colors.accent};
+      color: ${colors.customAccent ? colors.customAccent : colors.accent};
+      text-decoration: none;
+      padding: 10px 40px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+      &:nth-child(2) {
+        align-self: start;
+        margin-left: 40px;
+      }
+
+      @media (max-width: 850px) {
+        &:nth-child(1) {
+          display: none;
+        }
+      }
+
+      &:hover {
+        background: ${colors.customAccent
+          ? colors.customAccent
+          : colors.accent}30;
+      }
+    }
 
     .menu-cont {
       &__links,
@@ -163,9 +187,6 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
           pointer-events: none;
         }
 
-        .gmail {
-          padding-left: 40px;
-        }
         ul {
           display: flex;
           flex-direction: column;
@@ -258,28 +279,6 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
         display: flex;
         align-items: center;
         gap: 50px;
-
-        &__cta {
-          border: 1px solid
-            ${colors.customAccent ? colors.customAccent : colors.accent};
-          color: ${colors.customAccent ? colors.customAccent : colors.accent};
-          text-decoration: none;
-          padding: 10px 40px;
-          border-radius: 5px;
-          display: flex;
-          align-items: center;
-          transition: 0.3s;
-
-          @media (max-width: 850px) {
-            display: none;
-          }
-
-          &:hover {
-            background: ${colors.customAccent
-              ? colors.customAccent
-              : colors.accent}30;
-          }
-        }
       }
 
       @media (max-width: 500px) {
