@@ -1,4 +1,5 @@
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import styled, { css } from "styled-components";
@@ -71,11 +72,13 @@ const Project: React.FC<IProject> = ({
           }`}
         ></div>
         {hideImg && <div className="project-img__cover-bg"></div>}
-        <img
-          src={img}
-          alt=""
-          className={`project-img__${!hideImg && "shown"}`}
-        />
+        <Link href={`/projects/${slug}`}>
+          <img
+            src={img}
+            alt=""
+            className={`project-img__${!hideImg && "shown"}`}
+          />
+        </Link>
         <div className="project-img__round-txt-cont">
           <RoundText text={roundTxt} letterSpacing={5} />
         </div>
@@ -186,6 +189,7 @@ const Container = styled.div<{ colors: IColors }>`
 
       img {
         width: 100%;
+        cursor: pointer;
       }
 
       &__shown {
