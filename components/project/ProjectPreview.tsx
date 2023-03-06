@@ -24,7 +24,7 @@ const ProjectPreview: React.FC<IProjectPreview> = ({
         <h1>{title}</h1>
         <p>{description}</p>
         {demoUrl && (
-          <a href={demoUrl} target="blank">
+          <a href={demoUrl} rel="noreferrer" target="_blank">
             View Demo&nbsp; <BsArrowUpRight />
           </a>
         )}
