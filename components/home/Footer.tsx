@@ -15,18 +15,14 @@ const Footer = () => {
       <p>Don&apos;t hesitate to contact me for inquiries or questions</p>
       <div className="socials">
         <ContentBox backgroundColor={colors.foreground1}>
-          <a
-            href="https://github.com/stanleygarbo"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={GlobalVars.githubURL} target="_blank" rel="noreferrer">
             <FiGithub size={20} />
             @stanleygarbo
           </a>
         </ContentBox>
         <ContentBox backgroundColor={colors.foreground1}>
           <a
-            href="mailto:stanleygarbo@gmail.com"
+            href={`mailto:${GlobalVars.email}`}
             target="_blank"
             rel="noreferrer"
           >
