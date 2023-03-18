@@ -1,9 +1,10 @@
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { IColors } from "../../interfaces/IColors";
-import { FiGithub, FiTwitter } from "react-icons/fi";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import ContentBox from "../ContentBox";
+import { GlobalVars } from "../../GlobalVars";
 
 const Footer = () => {
   const { colors } = useTheme();
@@ -34,13 +35,9 @@ const Footer = () => {
           </a>
         </ContentBox>
         <ContentBox backgroundColor={colors.foreground1}>
-          <a
-            href="https://twitter.com/digital_mad_lad"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FiTwitter size={20} />
-            @digital_mad_lad
+          <a href={GlobalVars.linkedInURL} target="_blank" rel="noreferrer">
+            <FiLinkedin size={20} />
+            @stanleygarbo
           </a>
         </ContentBox>
       </div>

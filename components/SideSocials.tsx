@@ -2,7 +2,8 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
-import { FiGithub, FiFacebook, FiTwitter } from "react-icons/fi";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
+import { GlobalVars } from "../GlobalVars";
 
 const SideSocials: React.FC = () => {
   const { colors } = useTheme();
@@ -10,21 +11,13 @@ const SideSocials: React.FC = () => {
   return (
     <Container colors={colors}>
       <div className="icon">
-        <a
-          href="https://github.com/stanleygarbo"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href={GlobalVars.githubURL} target="_blank" rel="noreferrer">
           <FiGithub size={25} />
         </a>
       </div>
       <div className="icon">
-        <a
-          href="https://twitter.com/digital_mad_lad"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <FiTwitter size={23} />
+        <a href={GlobalVars.linkedInURL} target="_blank" rel="noreferrer">
+          <FiLinkedin size={22} />
         </a>
       </div>
       <div className="vert-line"></div>
