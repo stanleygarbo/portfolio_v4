@@ -17,7 +17,7 @@ const SideSocials: React.FC = () => {
       </div>
       <div className="icon">
         <a href={GlobalVars.linkedInURL} target="_blank" rel="noreferrer">
-          <FiLinkedin size={22} />
+          <FiLinkedin size={23} />
         </a>
       </div>
       <div className="vert-line"></div>
