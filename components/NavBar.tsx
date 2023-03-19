@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
 import { FiLinkedin, FiGithub } from "react-icons/fi";
+import { GlobalVars } from "../GlobalVars";
 
 const NavBar: React.FC = () => {
   const { colors } = useTheme();
@@ -54,7 +55,12 @@ const NavBar: React.FC = () => {
           <a className="wrapper__logo">SG</a>
         </Link>
         <div className="wrapper__right">
-          <a className="resume" href="/StanleyGarboResume.pdf" target="blank">
+          <a
+            className="resume"
+            href="/StanleyGarboResume.pdf"
+            rel="noreferrer"
+            target="_blank"
+          >
             Resume
           </a>
           <button
@@ -119,21 +125,24 @@ const NavBar: React.FC = () => {
             <a
               className="menu-cont__links__ext__resume"
               href="/StanleyGarboResume.pdf"
-              target="blank"
+              rel="noreferrer"
+              target="_blank"
             >
               Resume
             </a>
             <a
               className="menu-cont__links__ext__resume"
-              href="/StanleyGarboResume.pdf"
-              target="blank"
+              href={GlobalVars.githubURL}
+              target="_blank"
+              rel="noreferrer"
             >
               <FiGithub size={23} />
             </a>
             <a
               className="menu-cont__links__ext__resume"
-              href="/StanleyGarboResume.pdf"
-              target="blank"
+              href={GlobalVars.linkedInURL}
+              target="_blank"
+              rel="noreferrer"
             >
               <FiLinkedin size={23} />
             </a>
