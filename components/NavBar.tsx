@@ -131,7 +131,7 @@ const NavBar: React.FC = () => {
               Resume
             </a>
             <a
-              className="menu-cont__links__ext__resume"
+              className="menu-cont__links__ext__social"
               href={GlobalVars.githubURL}
               target="_blank"
               rel="noreferrer"
@@ -139,7 +139,7 @@ const NavBar: React.FC = () => {
               <FiGithub size={23} />
             </a>
             <a
-              className="menu-cont__links__ext__resume"
+              className="menu-cont__links__ext__social"
               href={GlobalVars.linkedInURL}
               target="_blank"
               rel="noreferrer"
@@ -161,7 +161,8 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
     width: 100%;
 
     .resume,
-    .menu-cont__links__ext__resume {
+    .menu-cont__links__ext__resume,
+    .menu-cont__links__ext__social {
       border: 1px solid
         ${colors.customAccent ? colors.customAccent : colors.accent};
       color: ${colors.customAccent ? colors.customAccent : colors.accent};
@@ -258,14 +259,14 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
           display: flex;
 
           &__resume {
+            padding: 10px 40px;
+            margin-left: 40px;
+          }
+
+          &__social {
             align-self: unset;
             margin-left: 10px;
             padding: 10px 12px;
-
-            &:nth-child(1) {
-              padding: 10px 40px;
-              margin-left: 40px;
-            }
           }
         }
       }
