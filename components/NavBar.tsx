@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
+import { FiLinkedin, FiGithub } from "react-icons/fi";
 
 const NavBar: React.FC = () => {
   const { colors } = useTheme();
@@ -114,9 +115,29 @@ const NavBar: React.FC = () => {
             </li>
           </ul>
 
-          <a className="resume" href="/StanleyGarboResume.pdf" target="blank">
-            Resume
-          </a>
+          <div className="menu-cont__links__ext">
+            <a
+              className="menu-cont__links__ext__resume"
+              href="/StanleyGarboResume.pdf"
+              target="blank"
+            >
+              Resume
+            </a>
+            <a
+              className="menu-cont__links__ext__resume"
+              href="/StanleyGarboResume.pdf"
+              target="blank"
+            >
+              <FiGithub size={23} />
+            </a>
+            <a
+              className="menu-cont__links__ext__resume"
+              href="/StanleyGarboResume.pdf"
+              target="blank"
+            >
+              <FiLinkedin size={23} />
+            </a>
+          </div>
         </div>
       </div>
     </Container>
@@ -130,31 +151,31 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
     top: 0;
     width: 100%;
 
-    .resume {
+    .resume,
+    .menu-cont__links__ext__resume {
       border: 1px solid
         ${colors.customAccent ? colors.customAccent : colors.accent};
       color: ${colors.customAccent ? colors.customAccent : colors.accent};
       text-decoration: none;
-      padding: 10px 40px;
       border-radius: 5px;
       display: flex;
       align-items: center;
       transition: 0.3s;
-      &:nth-child(2) {
-        align-self: start;
-        margin-left: 40px;
-      }
-
-      @media (max-width: 850px) {
-        &:nth-child(1) {
-          display: none;
-        }
-      }
 
       &:hover {
         background: ${colors.customAccent
           ? colors.customAccent
           : colors.accent}30;
+      }
+    }
+
+    .resume {
+      align-self: start;
+      margin-left: 40px;
+      padding: 10px 40px;
+
+      @media (max-width: 850px) {
+        display: none;
       }
     }
 
@@ -221,6 +242,21 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
 
           @media (max-width: 400px) {
             width: 100%;
+          }
+        }
+
+        &__ext {
+          display: flex;
+
+          &__resume {
+            align-self: unset;
+            margin-left: 10px;
+            padding: 10px 12px;
+
+            &:nth-child(1) {
+              padding: 10px 40px;
+              margin-left: 40px;
+            }
           }
         }
       }
