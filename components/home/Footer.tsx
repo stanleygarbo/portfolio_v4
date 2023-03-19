@@ -83,7 +83,7 @@ const Container = styled.footer<{ colors: IColors }>`
           : colors.accent};
         color: ${colors.customAccentForeground
           ? colors.customAccentForeground
-          : colors.foreground1};
+          : "#191818"};
         padding: 10px 20px;
         border-radius: 5px;
         align-items: center;
