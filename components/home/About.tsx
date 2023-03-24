@@ -20,11 +20,11 @@ const About: React.FC<{
       <div className="wrapper wrapper--about">
         <h2>About Me.</h2>
         <p>
-          Hello! My name&apos;s Stanley, an independent developer. Along my
-          studies in college, I develop applications for communities or for my
-          clients, giving me much needed experience on what it&apos;s like
-          launching, maintaining, and scaling digital products in real-world
-          environments.
+          Hello! My name&apos;s Stanley, an ambitious and independent developer.
+          Along my studies in college, I develop applications for communities or
+          for my clients, giving me much needed experience on what it&apos;s
+          like launching, maintaining, and scaling digital products in
+          real-world environments.
           <br />
           <br />
           One of the community-loved projects I made was a blockchain-based
