@@ -102,6 +102,12 @@ const Home: NextPage<{
           web 2.0 and web 3.0 technologies."
         />
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          property="og:title"
+          content="Stanley Garbo | A Software Developer's portfolio"
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="/portfolio_.png" />
       </Head>
       {/* <ScrollContainer id="my-scrollbar" onScroll={handleScroll}> */}
       {/* <Hero shouldDelay={shouldDelay} isWindowLoaded={isWindowLoaded} /> */}
