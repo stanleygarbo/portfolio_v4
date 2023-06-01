@@ -20,25 +20,17 @@ const About: React.FC<{
       <div className="wrapper wrapper--about">
         <h2>About Me.</h2>
         <p>
-          Hello! My name&apos;s Stanley, an ambitious and independent developer.
-          Along my studies in college, I develop applications for communities or
-          for my clients, giving me much needed experience on what it&apos;s
-          like launching, maintaining, and scaling digital products in
-          real-world environments.
+          Hello! My name&apos;s Stanley, an ambitious and independent developer
+          currently studying Computer Science in ACLC College of Ormoc. Along my
+          studies, I develop applications for communities or for my clients,
+          giving me much needed experience on what it&apos;s like launching,
+          maintaining, and scaling digital products in real-world environments.
           <br />
           <br />
           One of the community-loved projects I made was a blockchain-based
           asset tracker for a certain NFT game. The app had reached 168k users.
           Since this was the first project I built that had actual users, I
           faced a few problems which I ended up learning a lot about.
-          {/* <br />
-          <br />
-          Please read the stories below to learn more, it contains all the
-          problems I faced, what I did to solve those problems and what wish I
-          should've done looking back at it after a year. */}
-          {/* I have built personal projects which provide specific solutions
-          to specific blockchain gaming communities that had gained tremendous
-          amounts of traffic. One of which had gotten to 10k daily active users. */}
         </p>
       </div>
     </Container>
