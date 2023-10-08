@@ -41,12 +41,14 @@ class MyDocument extends Document {
             name="apple-mobile-web-app-status-bar-style"
             content="#333333"
           />
-          <script
-            async
-            defer
-            data-website-id="e05b9f6c-66c6-4963-8497-24a5d0304bf2"
-            src="https://umami-phi-teal.vercel.app/umami.js"
-          ></script>
+          {process.env.NODE_ENV === "production" ? (
+            <script
+              async
+              defer
+              data-website-id="e05b9f6c-66c6-4963-8497-24a5d0304bf2"
+              src="https://umami-phi-teal.vercel.app/umami.js"
+            ></script>
+          ) : null}
         </Head>
         <body>
           <Main />
