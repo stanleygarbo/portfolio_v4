@@ -26,6 +26,7 @@ export interface ISingleProjectItem {
   roundText: string;
   webNumber: string;
   demoUrl: string;
+  liveUrl: string;
   content: {
     caseContent: {
       headlineNumber: string;

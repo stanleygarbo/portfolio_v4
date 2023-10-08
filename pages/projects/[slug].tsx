@@ -59,7 +59,7 @@ const Slug: NextPage<IPage> = (props) => {
       }
     };
   }, []);
-
+  console.log(props);
   return (
     <>
       <Head>
@@ -71,6 +71,7 @@ const Slug: NextPage<IPage> = (props) => {
       </Head>
       <ProjectPreview
         demoUrl={props.demoUrl}
+        liveUrl={props.liveUrl}
         title={props.title}
         description={props.description}
         date={props.date}
@@ -125,6 +126,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
             content
             theme
             demoUrl
+            liveUrl
           }
         }
       }
