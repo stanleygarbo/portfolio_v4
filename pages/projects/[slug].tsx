@@ -86,6 +86,7 @@ const Slug: NextPage<IPage> = (props) => {
           headlineText={i.headlineText}
           paragraph1={i.paragraph1}
           paragraph2={i.paragraph2}
+          paragraph3={i.paragraph3}
           img={i.img}
           title={i.title}
         />

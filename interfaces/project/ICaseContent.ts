@@ -6,5 +6,6 @@ export interface ICaseContent {
   title?: string;
   paragraph1?: string;
   paragraph2?: string;
+  paragraph3?: string;
   img?: IImage;
 }

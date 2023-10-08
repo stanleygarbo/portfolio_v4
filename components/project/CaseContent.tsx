@@ -10,6 +10,7 @@ const CaseContent: React.FC<ICaseContent> = ({
   headlineText,
   paragraph1,
   paragraph2,
+  paragraph3,
   img,
 }) => {
   const { colors } = useTheme();
@@ -39,6 +40,7 @@ const CaseContent: React.FC<ICaseContent> = ({
           <p>{paragraph1}</p>
           <br />
           {paragraph2 && <p>{paragraph2}</p>}
+          {paragraph3 && <p>{paragraph3}</p>}
         </div>
       </div>
     </Container>
