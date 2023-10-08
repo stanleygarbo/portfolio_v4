@@ -21,10 +21,10 @@ const About: React.FC<{
         <h2>About Me.</h2>
         <p>
           Hello! My name&apos;s Stanley, an ambitious and independent developer
-          currently studying Computer Science in ACLC College of Ormoc. Along my
-          studies, I develop applications for communities or for my clients,
-          giving me much needed experience on what it&apos;s like launching,
-          maintaining, and scaling digital products in real-world environments.
+          based in the Philippines. Along my studies, I develop applications for
+          communities or for my clients, giving me much needed experience on
+          what it&apos;s like launching, maintaining, and scaling digital
+          products in real-world environments.
           <br />
           <br />
           One of the community-loved projects I made was a blockchain-based
