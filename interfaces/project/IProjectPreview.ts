@@ -7,4 +7,5 @@ export interface IProjectPreview {
   product: string;
   bannerURL: string;
   demoUrl: string;
+  liveUrl?: string;
 }

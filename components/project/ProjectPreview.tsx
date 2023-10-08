@@ -12,11 +12,10 @@ const ProjectPreview: React.FC<IProjectPreview> = ({
   location,
   technologies,
   product,
-  bannerURL,
   demoUrl,
+  liveUrl,
 }) => {
   const { colors } = useTheme();
-  console.log(demoUrl);
 
   return (
     <Container colors={colors}>
@@ -26,6 +25,11 @@ const ProjectPreview: React.FC<IProjectPreview> = ({
         {demoUrl && (
           <a href={demoUrl} rel="noreferrer" target="_blank">
             View Demo&nbsp; <BsArrowUpRight />
+          </a>
+        )}
+        {liveUrl && (
+          <a href={liveUrl} rel="noreferrer" target="_blank">
+            View Live&nbsp; <BsArrowUpRight />
           </a>
         )}
       </div>
