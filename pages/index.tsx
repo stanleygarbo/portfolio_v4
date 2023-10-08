@@ -2,7 +2,6 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import About from "../components/home/About";
-import Hero from "../components/home/Hero";
 import HomeScrollIndicator from "../components/home/HomeScrollIndicator";
 import { wait } from "../util/wait";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";

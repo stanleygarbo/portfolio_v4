@@ -14,7 +14,6 @@ const HeroSection: React.FC<{
   const [shouldShow, setShouldShow] = useState(false);
 
   useEffect(() => {
-    console.log(isWindowLoaded);
     if (isWindowLoaded) {
       (async () => {
         if (shouldDelay) {
