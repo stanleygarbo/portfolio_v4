@@ -5,6 +5,7 @@ import Document, {
   Html,
   DocumentContext,
 } from "next/document";
+import Script from "next/script";
 
 import { ServerStyleSheet } from "styled-components";
 
@@ -42,12 +43,26 @@ class MyDocument extends Document {
             content="#333333"
           />
           {process.env.NODE_ENV === "production" ? (
-            <script
-              async
-              defer
-              data-website-id="e05b9f6c-66c6-4963-8497-24a5d0304bf2"
-              src="https://umami-phi-teal.vercel.app/umami.js"
-            ></script>
+            <>
+              <script
+                async
+                defer
+                data-website-id="e05b9f6c-66c6-4963-8497-24a5d0304bf2"
+                src="https://umami-phi-teal.vercel.app/umami.js"
+              ></script>
+              <Script
+                async={true}
+                src="https://www.googletagmanager.com/gtag/js?id=G-WNJ3QRPKB0"
+              ></Script>
+              <Script>
+                {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-WNJ3QRPKB0');`}
+              </Script>
+            </>
           ) : null}
         </Head>
         <body>
