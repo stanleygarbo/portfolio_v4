@@ -50,18 +50,11 @@ class MyDocument extends Document {
                 data-website-id="e05b9f6c-66c6-4963-8497-24a5d0304bf2"
                 src="https://umami-phi-teal.vercel.app/umami.js"
               ></script>
-              <Script
-                async={true}
+              <script
+                async
                 src="https://www.googletagmanager.com/gtag/js?id=G-WNJ3QRPKB0"
-              ></Script>
-              <Script id="gtag">
-                {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              gtag('config', 'G-WNJ3QRPKB0');`}
-              </Script>
+              ></script>
+              <script id="gtag" src="/gtag.js"></script>
             </>
           ) : null}
         </Head>
