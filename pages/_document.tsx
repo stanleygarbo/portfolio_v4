@@ -5,7 +5,6 @@ import Document, {
   Html,
   DocumentContext,
 } from "next/document";
-import Script from "next/script";
 
 import { ServerStyleSheet } from "styled-components";
 
@@ -54,7 +53,7 @@ class MyDocument extends Document {
                 async
                 src="https://www.googletagmanager.com/gtag/js?id=G-WNJ3QRPKB0"
               ></script>
-              <script id="gtag" src="/gtag.js"></script>
+              <script id="gtag" defer src="/gtag.js"></script>
             </>
           ) : null}
         </Head>
