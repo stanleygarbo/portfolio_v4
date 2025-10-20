@@ -51,7 +51,7 @@ const NavBar: React.FC = () => {
         <i className="cover__text">Loading...</i>
       </div>
       <div className="wrapper">
-        <Link href="/" passHref>
+        <Link legacyBehavior href="/" passHref>
           <a className="wrapper__logo">SG</a>
         </Link>
         <div className="wrapper__right">
@@ -88,7 +88,7 @@ const NavBar: React.FC = () => {
         >
           <ul>
             <li>
-              <Link href="/#hero">
+              <Link legacyBehavior href="/#hero">
                 <a onClick={onClickHandler}>
                   <span>01 </span>
                   Hero
@@ -96,7 +96,7 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/#about">
+              <Link legacyBehavior href="/#about">
                 <a onClick={onClickHandler}>
                   <span>02 </span>
                   About
@@ -104,7 +104,7 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/#projects">
+              <Link legacyBehavior href="/#projects">
                 <a onClick={onClickHandler}>
                   <span>03 </span>
                   Projects
@@ -112,7 +112,7 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/#contact">
+              <Link legacyBehavior href="/#contact">
                 <a onClick={onClickHandler}>
                   <span>04 </span>
                   Contact

@@ -20,6 +20,7 @@ const CaseContent: React.FC<ICaseContent> = ({
       {!!img && (
         <div className="img-cont">
           <Image
+            alt=""
             src={img.url}
             placeholder="blur"
             blurDataURL={img.url}

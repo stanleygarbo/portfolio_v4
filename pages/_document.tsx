@@ -7,6 +7,7 @@ import Document, {
 } from "next/document";
 
 import { ServerStyleSheet } from "styled-components";
+import Script from "next/script";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -43,17 +44,17 @@ class MyDocument extends Document {
           />
           {process.env.NODE_ENV === "production" ? (
             <>
-              <script
+              <Script
                 async
                 defer
                 data-website-id="e05b9f6c-66c6-4963-8497-24a5d0304bf2"
                 src="https://umami-phi-teal.vercel.app/umami.js"
-              ></script>
-              <script
+              ></Script>
+              <Script
                 async
                 src="https://www.googletagmanager.com/gtag/js?id=G-WNJ3QRPKB0"
-              ></script>
-              <script id="gtag" defer src="/gtag.js"></script>
+              ></Script>
+              <Script id="gtag" defer src="/gtag.js"></Script>
             </>
           ) : null}
         </Head>
