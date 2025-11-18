@@ -27,6 +27,7 @@ const CaseContent: React.FC<ICaseContent> = ({
             objectFit="contain"
             width={img.width}
             height={img.height}
+            layout="responsive"
           />
         </div>
       )}
