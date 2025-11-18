@@ -42,6 +42,8 @@ class MyDocument extends Document {
             name="apple-mobile-web-app-status-bar-style"
             content="#333333"
           />
+          <link rel="canonical" href="https://stanleygarbo.com/" />
+
           {process.env.NODE_ENV === "production" ? (
             <>
               <Script
