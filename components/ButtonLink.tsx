@@ -12,7 +12,7 @@ const ButtonLink: React.FC<IButtonLink> = ({ text, href, style }) => {
   const r = useRouter();
 
   return (
-    <Link href={href} passHref>
+    <Link style={{ textDecoration: "none" }} href={href}>
       <Container colors={colors} style={style}>
         {text}
       </Container>
@@ -20,7 +20,7 @@ const ButtonLink: React.FC<IButtonLink> = ({ text, href, style }) => {
   );
 };
 
-const Container = styled.a<{ colors: IColors }>`
+const Container = styled.span<{ colors: IColors }>`
   ${({ colors }) => css`
     display: block;
     padding: 10px 70px;
