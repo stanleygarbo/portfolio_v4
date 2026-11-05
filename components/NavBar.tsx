@@ -1,5 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
@@ -9,27 +10,7 @@ import { GlobalVars } from "../GlobalVars";
 
 const NavBar: React.FC = () => {
   const { colors } = useTheme();
-  const [isActive, setIsActive] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const router = useRouter();
-  const aniStart = () => {
-    setIsActive(true);
-  };
-  const aniEnd = () => {
-    setIsActive(false);
-  };
-  useEffect(() => {
-    router.events.on("routeChangeStart", aniStart);
-    router.events.on("routeChangeComplete", aniEnd);
-    router.events.on("routeChangeError", aniEnd);
-
-    return () => {
-      router.events.off("routeChangeStart", aniStart);
-      router.events.off("routeChangeComplete", aniEnd);
-      router.events.off("routeChangeError", aniEnd);
-    };
-  }, [router]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -50,10 +31,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <Container $colors={colors} $isActive={isActive}>
-      <div className="cover">
-        <i className="cover__text">Loading...</i>
-      </div>
+    <Container $colors={colors}>
       <div className="wrapper">
         <Link
           href="/"
@@ -161,8 +139,8 @@ const NavBar: React.FC = () => {
   );
 };
 
-const Container = styled.nav<{ $colors: IColors; $isActive: boolean }>`
-  ${({ $colors: colors, $isActive: isActive }) => css`
+const Container = styled.nav<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     z-index: 15;
     position: fixed;
     top: 0;
@@ -284,46 +262,6 @@ const Container = styled.nav<{ $colors: IColors; $isActive: boolean }>`
           background: rgba(0, 0, 0, 0.5);
           width: 100%;
         }
-      }
-    }
-
-    .cover {
-      background-color: ${colors.background2};
-      border-bottom: 2px solid #333;
-      border-top: 2px solid #333;
-      width: 100%;
-      height: 0%;
-      position: fixed;
-      bottom: 0;
-
-      z-index: 500;
-
-      transition: height 0.7s;
-      transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      ${isActive
-        ? css`
-            height: 100%;
-          `
-        : css`
-            height: 0%;
-            top: -4px;
-          `}
-
-      &__text {
-        color: #fff;
-        opacity: 0;
-        transition: opacity 0.5s;
-        transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-        font-size: 20px;
-
-        ${isActive &&
-        css`
-          opacity: 1;
-        `}
       }
     }
 

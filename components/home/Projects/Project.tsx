@@ -1,3 +1,5 @@
+"use client";
+
 import { useWindowScrollPosition } from "@n8tb1t/use-scroll-position";
 import Image from "next/image";
 import Link from "next/link";

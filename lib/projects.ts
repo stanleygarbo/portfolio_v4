@@ -5,8 +5,6 @@ import type {
 } from "../interfaces/IContentfulAPI.ts";
 import { fetchGraphQL } from "./contentfulAPI.ts";
 
-export const PROJECT_REVALIDATE_SECONDS = 300;
-
 async function fetchProjects<T>(
   query: string,
   variables?: Record<string, unknown>,

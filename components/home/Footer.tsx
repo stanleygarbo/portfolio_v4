@@ -1,3 +1,5 @@
+"use client";
+
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { IColors } from "../../interfaces/IColors";

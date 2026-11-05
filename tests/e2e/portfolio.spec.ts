@@ -68,10 +68,14 @@ test("opens a case study and returns home without hydration errors", async ({
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
+  const documentElement = await page.locator("html").elementHandle();
   const project = page.locator("#projects a[href^='/projects/']").first();
   await project.scrollIntoViewIfNeeded();
   await project.click();
   await expect(page).toHaveURL(/\/projects\/[^/]+$/);
+  expect(
+    await documentElement?.evaluate((element) => element.isConnected),
+  ).toBe(true);
   await expect(page.locator("main h1")).not.toBeEmpty();
   await expect(page).not.toHaveTitle(/<!--/);
   await expect(page.locator("link[rel='canonical']")).toHaveAttribute(
@@ -85,20 +89,115 @@ test("opens a case study and returns home without hydration errors", async ({
   }
   await page.getByRole("link", { name: "Stanley Garbo home" }).click();
   await expect(page).toHaveURL("/");
+  expect(
+    await documentElement?.evaluate((element) => element.isConnected),
+  ).toBe(true);
   await expect(page.locator(".hero-content__cta")).toHaveCSS("opacity", "1");
   expect(errors).toEqual([]);
 });
 
-test("returns a real 404 for a missing project", async ({ page }) => {
-  const response = await page.goto(
+test("returns a real 404 for missing projects and unknown routes", async ({
+  page,
+}) => {
+  for (const path of [
     "/projects/this-project-does-not-exist-upgrade-test",
-  );
-  expect(response?.status()).toBe(404);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("404");
+    "/this-route-does-not-exist-migration-test",
+  ]) {
+    const response = await page.goto(path);
+    expect(response?.status()).toBe(404);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("404");
+    await expect(page).toHaveTitle("404 | Page Not Found");
+    await expect(page.getByRole("navigation")).toHaveCount(1);
+    await expect(page.getByRole("main")).toHaveCount(1);
+    await expect(page.locator("meta[name='robots']")).toHaveAttribute(
+      "content",
+      "noindex",
+    );
+  }
+});
+
+test("preserves server-rendered project colors through browser history", async ({
+  page,
+  browser,
+  baseURL,
+}) => {
+  await page.goto("/");
+  const homeColor = await page
+    .locator("body")
+    .evaluate((element) => getComputedStyle(element).backgroundColor);
+  const project = page.locator("#projects a[href^='/projects/']").first();
+  const projectPath = await project.getAttribute("href");
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: page.viewportSize(),
+  });
+
+  try {
+    const serverPage = await context.newPage();
+    await serverPage.goto(new URL(projectPath!, baseURL!).href);
+    const serverColor = await serverPage
+      .locator("body")
+      .evaluate((element) => getComputedStyle(element).backgroundColor);
+    const logoColor = await serverPage
+      .getByRole("link", { name: "Stanley Garbo home" })
+      .evaluate((element) => getComputedStyle(element).color);
+    await expect(serverPage.locator("style[data-styled]")).not.toHaveCount(0);
+
+    await project.scrollIntoViewIfNeeded();
+    await project.click();
+    await expect(page).toHaveURL(new URL(projectPath!, baseURL!).href);
+    await expect(page.locator("body")).toHaveCSS(
+      "background-color",
+      serverColor,
+    );
+    await expect(
+      page.getByRole("link", { name: "Stanley Garbo home" }),
+    ).toHaveCSS("color", logoColor);
+
+    await page.goBack();
+    await expect(page).toHaveURL("/");
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(page.locator("body")).toHaveCSS("background-color", homeColor);
+
+    await page.goForward();
+    await expect(page).toHaveURL(new URL(projectPath!, baseURL!).href);
+    await expect(page.locator("body")).toHaveCSS(
+      "background-color",
+      serverColor,
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test("preserves the API and legacy not-found URL", async ({
+  request,
+  page,
+}) => {
+  const response = await request.get("/api/hello");
+  expect(response.status()).toBe(200);
+  expect(await response.json()).toEqual({ name: "John Doe" });
+
+  expect((await page.goto("/page-not-found"))?.status()).toBe(200);
+  await expect(page).toHaveTitle("404 | Page Not Found");
+  await expect(page.getByRole("main")).toHaveCount(1);
   await expect(page.locator("meta[name='robots']")).toHaveAttribute(
     "content",
     "noindex",
   );
+});
+
+test("retains five-minute static regeneration", async ({ request, page }) => {
+  const home = await request.get("/");
+  expect(home.headers()["cache-control"]).toContain("s-maxage=300");
+
+  await page.goto("/");
+  const projectPath = await page
+    .locator("#projects a[href^='/projects/']")
+    .first()
+    .getAttribute("href");
+  const project = await request.get(projectPath!);
+  expect(project.headers()["cache-control"]).toContain("s-maxage=300");
 });
 
 test("keeps the homepage usable without JavaScript", async ({

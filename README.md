@@ -23,13 +23,19 @@ The former `NEXT_PUBLIC_CONTENTFUL_*` names are no longer used.
 ## Content and rendering
 
 The homepage and published project pages are generated at build time and revalidated every five minutes.
-New project URLs are generated on their first request using blocking fallback.
+New project URLs are generated on their first request.
 Missing projects return HTTP 404, while Contentful outages throw an error so failed regeneration preserves the last successful page.
 Builds require working Contentful credentials and network access.
 Requests have a ten-second timeout and retry transient network, rate-limit, and server failures up to three attempts.
 
-Styling uses the Next.js compiler, with server-rendered styles and transient styling props.
-The Pages Router is retained.
+Routes use the App Router, with Server Components for Contentful fetching and metadata.
+The homepage and project layouts share the site shell, with project colors supplied on the server before the first paint.
+Client Components handle the theme context, navigation menu, scroll effects, and animations.
+Contentful requests are deduplicated across metadata, layouts, and pages during each server render.
+Static route regeneration caches the validated page, while regeneration requests fresh CMS data without a separate fetch cache.
+
+Styling uses the Next.js compiler, a streaming style registry, and transient styling props.
+The existing `/page-not-found` URL and `/api/hello` endpoint are retained as an App Router page and Route Handler.
 
 ## Verification
 
@@ -52,5 +58,5 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The browser suite builds and starts the production site, then checks desktop and mobile rendering, navigation, case-study images, HTTP 404 responses, reduced motion, and rendering without JavaScript.
+The browser suite builds and starts the production site, then checks desktop and mobile rendering, client navigation, browser history, server-rendered project colors, case-study images, HTTP 404 responses, API compatibility, static cache headers, reduced motion, and rendering without JavaScript.
 To test an already running local server, set `PLAYWRIGHT_BASE_URL`, for example `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3100 npm run test:e2e`.

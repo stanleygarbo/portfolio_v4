@@ -1,3 +1,5 @@
+"use client";
+
 import { useWindowScrollPosition } from "@n8tb1t/use-scroll-position";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";

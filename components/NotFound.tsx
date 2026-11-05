@@ -1,25 +1,18 @@
-import type { NextPage } from "next";
-import Head from "next/head";
+"use client";
+
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
 
-const PageNotFound: NextPage = () => {
+const NotFoundContent = () => {
   const { colors } = useTheme();
 
   return (
     <>
-      <Head>
-        <title>404 | Page Not Found</title>
-        <meta name="robots" content="noindex" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Container $colors={colors}>
         <h1>
           <span className="error-code">404</span>
-          <span className="error-message">
-            This page doesn&apos;t exist.
-          </span>
+          <span className="error-message">This page doesn&apos;t exist.</span>
         </h1>
       </Container>
     </>
@@ -51,4 +44,4 @@ const Container = styled.div<{ $colors: IColors }>`
   `}
 `;
 
-export default PageNotFound;
+export default NotFoundContent;

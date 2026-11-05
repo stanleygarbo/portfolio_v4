@@ -1,24 +1,43 @@
+"use client";
+
 import React from "react";
 import styled, { createGlobalStyle, css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IColors } from "../interfaces/IColors";
 import NavBar from "./NavBar";
 import SideSocials from "./SideSocials";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+import { ThemeContextProvider } from "../contexts/themeContext";
+import type { IProjectTheme } from "../interfaces/IContentfulAPI";
 import VerticalEmail from "./VerticalEmail";
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const LayoutContent: React.FC<{
+  children: React.ReactNode;
+  isHome: boolean;
+}> = ({ children, isHome }) => {
   const { colors } = useTheme();
-  const router = useRouter();
 
   return (
     <Container>
       <GlobalStyle $colors={colors} />
       <NavBar />
       <SideSocials />
-      {router.pathname !== "/" && <VerticalEmail />}
+      {!isHome && <VerticalEmail />}
       <main id="main">{children}</main>
     </Container>
+  );
+};
+
+const Layout: React.FC<{
+  children: React.ReactNode;
+  pageTheme?: IProjectTheme;
+}> = ({ children, pageTheme }) => {
+  const pathname = usePathname();
+
+  return (
+    <ThemeContextProvider key={pathname} pageTheme={pageTheme}>
+      <LayoutContent isHome={pathname === "/"}>{children}</LayoutContent>
+    </ThemeContextProvider>
   );
 };
 
@@ -53,7 +72,9 @@ const GlobalStyle = createGlobalStyle<{
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;

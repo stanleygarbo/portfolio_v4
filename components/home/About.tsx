@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
@@ -79,8 +81,8 @@ const Container = styled.div<{ $colors: IColors }>`
 
         &::before {
           content: "02.";
-          font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono",
-            monospace;
+          font-family:
+            "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
           font-size: 18px;
           font-weight: 500;
           color: ${colors.customAccent ? colors.customAccent : colors.accent};

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { colors } from "../theme/colors";
 import { IThemeContext } from "../interfaces/contexts/IThemeContext";
