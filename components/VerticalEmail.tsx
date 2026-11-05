@@ -8,7 +8,7 @@ const VerticalEmail = () => {
   const { colors } = useTheme();
 
   return (
-    <Container colors={colors}>
+    <Container $colors={colors}>
       <div className="vert-email">
         <a href={`mailto:${GlobalVars.email}`}>{GlobalVars.email}</a>
       </div>
@@ -18,8 +18,8 @@ const VerticalEmail = () => {
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     position: fixed;
     right: 55px;
     bottom: 0px;

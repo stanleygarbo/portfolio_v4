@@ -1,12 +1,56 @@
-<center>
-
 # stanleygarbo.com - v4
 
-4th iteration of my portfolio website built with TypeScript, Nextjs and contentful
+My portfolio, built with Next.js 16, React 19, TypeScript, styled-components, and Contentful.
 
-</center>
+[Website](https://stanleygarbo.com) | [Resume](https://stanleygarbo.com/StanleyGarboResume.pdf)
 
----
+## Development
 
-- View my website @ [www.stanleygarbo.com](https://stanleygarbo.com "Stanley Garbo Resume").
-- View my resume [here](https://stanleygarbo.com/StanleyGarboResume.pdf "Stanley Garbo Resume").
+Use Node.js 26 LTS, pinned in `.nvmrc` and `package.json`.
+
+```sh
+nvm install
+nvm use
+npm ci
+cp .env.example .env.local
+```
+
+Set `CONTENTFUL_SPACE_ID` and `CONTENTFUL_ACCESS_TOKEN` in `.env.local`, then run `npm run dev`.
+Use a Contentful delivery token with access to the published portfolio content.
+These variables are used only by server-side data fetching and must also be configured in the hosting provider before building or deploying.
+The former `NEXT_PUBLIC_CONTENTFUL_*` names are no longer used.
+
+## Content and rendering
+
+The homepage and published project pages are generated at build time and revalidated every five minutes.
+New project URLs are generated on their first request using blocking fallback.
+Missing projects return HTTP 404, while Contentful outages throw an error so failed regeneration preserves the last successful page.
+Builds require working Contentful credentials and network access.
+Requests have a ten-second timeout and retry transient network, rate-limit, and server failures up to three attempts.
+
+Styling uses the Next.js compiler, with server-rendered styles and transient styling props.
+The Pages Router is retained.
+
+## Verification
+
+```sh
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm audit
+```
+
+Linting uses ESLint 10 with the official Next.js plugin, React Hooks rules, and TypeScript recommended rules.
+TypeScript 5.9 is retained because the lint parser currently supports TypeScript versions below 6.1.
+The `minimatch` override patches a denial-of-service advisory in the tooling dependency tree until upstream packages adopt version 11.0.1 or later.
+
+Run the production browser tests with:
+
+```sh
+npx playwright install chromium
+npm run test:e2e
+```
+
+The browser suite builds and starts the production site, then checks desktop and mobile rendering, navigation, case-study images, HTTP 404 responses, reduced motion, and rendering without JavaScript.
+To test an already running local server, set `PLAYWRIGHT_BASE_URL`, for example `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3100 npm run test:e2e`.

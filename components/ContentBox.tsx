@@ -1,5 +1,5 @@
-import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import React, { useRef, useState } from "react";
+import { useWindowScrollPosition } from "@n8tb1t/use-scroll-position";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { IContentBox } from "../interfaces/IContentBox";
 
@@ -12,22 +12,24 @@ const ContentBox: React.FC<IContentBox> = ({
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useScrollPosition(
-    ({}) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        // check if object is in viewport
-        if (rect.top - (window.innerHeight - 50) < 0) {
-          setShouldAnimate(true);
+  useEffect(() => {
+    if (!shouldAnimate) return;
+    const timer = setTimeout(
+      () => setIsShown(true),
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 700,
+    );
+    return () => clearTimeout(timer);
+  }, [shouldAnimate]);
 
-          setTimeout(() => {
-            setIsShown(true);
-          }, 700);
-        }
+  useWindowScrollPosition(() => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      // check if object is in viewport
+      if (rect.top - (window.innerHeight - 50) < 0) {
+        setShouldAnimate(true);
       }
-    },
-    [containerRef]
-  );
+    }
+  });
 
   return (
     <Container ref={containerRef} {...props}>

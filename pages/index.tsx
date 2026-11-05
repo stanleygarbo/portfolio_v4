@@ -1,94 +1,59 @@
-import type { GetServerSidePropsContext, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useWindowScrollPosition } from "@n8tb1t/use-scroll-position";
 import About from "../components/home/About";
 import HomeScrollIndicator from "../components/home/HomeScrollIndicator";
-import { wait } from "../util/wait";
-import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import { useTheme } from "../contexts/themeContext";
 import Footer from "../components/home/Footer";
 import Projects from "../components/home/Projects/Projects";
-import { fetchGraphQL } from "../lib/contentfulAPI";
-import {
-  IProjectCollection,
-  ISingleProjectItem,
-} from "../interfaces/IContentfulAPI";
-import cache from "memory-cache";
 import HeroSection from "../components/home/HeroSection";
+import { useTheme } from "../contexts/themeContext";
+import type { IProjectSummary } from "../interfaces/IContentfulAPI";
+import {
+  getProjectSummaries,
+  PROJECT_REVALIDATE_SECONDS,
+} from "../lib/projects";
 
-const Home: NextPage<{
-  shouldDelay: boolean;
-  projects: ISingleProjectItem[];
-  hasBeenAccessedBefore: boolean;
-}> = ({ shouldDelay, projects, hasBeenAccessedBefore }) => {
-  const [aboutSectionHeight, setAboutSectionHeight] = useState<number>(0);
-  const [ProjectsSectionHeight, setProjectsSectionHeight] = useState<number>(0);
+interface HomeProps {
+  projects: IProjectSummary[];
+}
 
-  const [isWindowLoaded, setIsWindowLoaded] = useState(hasBeenAccessedBefore);
-
+const Home: NextPage<HomeProps> = ({ projects }) => {
+  const [aboutSectionHeight, setAboutSectionHeight] = useState(0);
+  const [projectsSectionHeight, setProjectsSectionHeight] = useState(0);
+  const [indicators, setIndicators] = useState({
+    hero: true,
+    about: false,
+    projects: false,
+    contact: false,
+  });
   const { setCustomBodyColor, setCustomAccent, setCustomForeground } =
     useTheme();
 
-  const [isHeroActive, setIsHeroActive] = useState(true);
-  const [isAboutActive, setIsAboutActive] = useState(false);
-  const [isProjectsActive, setIsProjectsActive] = useState(false);
-  const [isContactActive, setIsContactActive] = useState(false);
+  useWindowScrollPosition(({ currPos }) => {
+    const top = currPos.y;
+    const bottom = top + window.innerHeight;
+    const isProjectsActive =
+      top >= aboutSectionHeight + 300 &&
+      bottom <
+        window.innerHeight + aboutSectionHeight + projectsSectionHeight + 500;
 
-  useScrollPosition(({ currPos }) => {
-    const bottomOfScreen = -currPos.y + window.innerHeight;
+    setIndicators({
+      hero: top <= 0,
+      about: top > 0 && bottom < window.innerHeight + aboutSectionHeight + 300,
+      projects: isProjectsActive,
+      contact:
+        top > 0 &&
+        bottom >
+          window.innerHeight + aboutSectionHeight + projectsSectionHeight + 500,
+    });
 
-    if (bottomOfScreen >= 0 && bottomOfScreen <= window.innerHeight) {
-      setIsHeroActive(true);
-    } else {
-      setIsHeroActive(false);
-    }
-
-    if (
-      bottomOfScreen - window.innerHeight > 0 &&
-      bottomOfScreen < window.innerHeight + aboutSectionHeight + 300
-    ) {
-      setIsAboutActive(true);
-    } else {
-      setIsAboutActive(false);
-    }
-
-    if (
-      bottomOfScreen - window.innerHeight >= aboutSectionHeight + 300 &&
-      bottomOfScreen <
-        window.innerHeight + aboutSectionHeight + ProjectsSectionHeight + 500
-    ) {
-      setIsProjectsActive(true);
-    } else {
-      setIsProjectsActive(false);
-
-      if (setCustomBodyColor && setCustomAccent && setCustomForeground) {
-        setCustomBodyColor("");
-        setCustomAccent("");
-        setCustomForeground("");
-      }
-    }
-    if (
-      bottomOfScreen - window.innerHeight > 0 &&
-      bottomOfScreen >
-        window.innerHeight + aboutSectionHeight + ProjectsSectionHeight + 500
-    ) {
-      setIsContactActive(true);
-    } else {
-      setIsContactActive(false);
+    if (!isProjectsActive) {
+      setCustomBodyColor?.("");
+      setCustomAccent?.("");
+      setCustomForeground?.("");
     }
   });
-
-  useEffect(() => {
-    let isMounted = true;
-
-    setTimeout(() => {
-      if (isMounted && !hasBeenAccessedBefore) setIsWindowLoaded(true);
-    }, 2000);
-
-    return () => {
-      isMounted = false;
-    };
-  }, [hasBeenAccessedBefore]);
 
   return (
     <>
@@ -96,104 +61,35 @@ const Home: NextPage<{
         <title>Stanley Garbo | A software developer&apos;s portfolio</title>
         <meta
           name="description"
-          content="Experienced
-          in building, designing and scaling high quality web applications that utilizes both
-          web 2.0 and web 3.0 technologies."
+          content="Experienced in building, designing and scaling high quality web applications that utilize both web 2.0 and web 3.0 technologies."
         />
+        <link rel="canonical" href="https://stanleygarbo.com/" />
         <link rel="icon" href="/favicon.ico" />
         <meta
           property="og:title"
           content="Stanley Garbo | A Software Developer's portfolio"
         />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="/portfolio_.png" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://stanleygarbo.com/portfolio_.png"
+        />
       </Head>
-      {/* <ScrollContainer id="my-scrollbar" onScroll={handleScroll}> */}
-      {/* <Hero shouldDelay={shouldDelay} isWindowLoaded={isWindowLoaded} /> */}
-      <HeroSection shouldDelay={shouldDelay} isWindowLoaded={isWindowLoaded} />
+      <HeroSection />
       <About setAboutSectionHeight={setAboutSectionHeight} />
       <Projects
         projects={projects}
         setProjectsSectionHeight={setProjectsSectionHeight}
       />
       <Footer />
-      {/* </ScrollContainer> */}
-      <HomeScrollIndicator
-        indicators={{
-          hero: isHeroActive,
-          about: isAboutActive,
-          projects: isProjectsActive,
-          contact: isContactActive,
-        }}
-      />
+      <HomeScrollIndicator indicators={indicators} />
     </>
   );
 };
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const referrer = ctx.req.headers.referer?.split("/").reverse()[0];
-  const c = cache.get(`ALL_PROJECTS`);
-
-  if (c) {
-    if (referrer !== undefined) {
-      await wait(500);
-    }
-
-    return {
-      props: {
-        hasBeenAccessedBefore: !!referrer,
-        shouldDelay: !!referrer,
-        ...c,
-      },
-    };
-  } else {
-    const query = `
-    query {
-      projectCollection{
-        items{
-          slug
-          previewTitle
-          previewDescription
-          roundText
-          webNumber
-          banner{
-            url
-          }
-          theme
-          projectNumber
-        }
-      }
-    }
-  `;
-
-    const res: IProjectCollection = await fetchGraphQL({ query });
-    const projects: ISingleProjectItem[] = [];
-
-    res.data.projectCollection.items.map((i) => {
-      projects.push(i);
-    });
-
-    projects.sort((a: any, b: any) => a.projectNumber - b.projectNumber);
-
-    const data = {
-      projects,
-    };
-
-    cache.put(`ALL_PROJECTS`, data, 5 * 1000 * 60 * 60);
-
-    if (!!referrer) {
-      await wait(500);
-    }
-
-    return {
-      props: {
-        hasBeenAccessedBefore: !!referrer,
-        shouldDelay: !!referrer,
-
-        ...data,
-      },
-    };
-  }
-}
+export const getStaticProps: GetStaticProps<HomeProps> = async () => ({
+  props: { projects: await getProjectSummaries() },
+  revalidate: PROJECT_REVALIDATE_SECONDS,
+});
 
 export default Home;

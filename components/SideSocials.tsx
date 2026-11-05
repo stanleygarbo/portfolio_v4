@@ -9,7 +9,7 @@ const SideSocials: React.FC = () => {
   const { colors } = useTheme();
 
   return (
-    <Container colors={colors}>
+    <Container $colors={colors}>
       <div className="icon">
         <a href={GlobalVars.githubURL} target="_blank" rel="noreferrer">
           <FiGithub size={25} />
@@ -25,8 +25,8 @@ const SideSocials: React.FC = () => {
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     z-index: 5;
 
     width: 40px;

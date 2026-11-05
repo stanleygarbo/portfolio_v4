@@ -18,7 +18,7 @@ const ProjectPreview: React.FC<IProjectPreview> = ({
   const { colors } = useTheme();
 
   return (
-    <Container colors={colors}>
+    <Container $colors={colors}>
       <div className="inner">
         <h1>{title}</h1>
         <p>{description}</p>
@@ -58,8 +58,8 @@ const ProjectPreview: React.FC<IProjectPreview> = ({
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     max-width: 1300px;
     margin: 45px auto;
     padding: 0 150px;

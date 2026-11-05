@@ -1,27 +1,24 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";
 import { IButtonLink } from "../interfaces/IButtonLink";
 import { IColors } from "../interfaces/IColors";
-import { isMobile } from "react-device-detect";
 
 const ButtonLink: React.FC<IButtonLink> = ({ text, href, style }) => {
   const { colors } = useTheme();
-  const r = useRouter();
 
   return (
     <Link style={{ textDecoration: "none" }} href={href}>
-      <Container colors={colors} style={style}>
+      <Container $colors={colors} style={style}>
         {text}
       </Container>
     </Link>
   );
 };
 
-const Container = styled.span<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.span<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     display: block;
     padding: 10px 70px;
     border: 1px solid
@@ -37,8 +34,7 @@ const Container = styled.span<{ colors: IColors }>`
     text-decoration: none;
     transition: 0.3s;
 
-    ${!isMobile &&
-    css`
+    @media (hover: hover) and (pointer: fine) {
       &:hover {
         border-radius: 100px;
         background: ${colors.customForeground
@@ -48,7 +44,7 @@ const Container = styled.span<{ colors: IColors }>`
           ? colors.customBodyColor
           : colors.background1};
       }
-    `}
+    }
   `}
 `;
 

@@ -1,9 +1,7 @@
-export interface IProjectCollection {
-  data: {
-    projectCollection: {
-      items: ISingleProjectItem[];
-    };
-  };
+export interface IProjectCollection<T> {
+  projectCollection: {
+    items: (T | null)[];
+  } | null;
 }
 
 export interface IImage {
@@ -12,21 +10,34 @@ export interface IImage {
   height: number;
 }
 
+export interface IProjectTheme {
+  accent: string;
+  accentForeground: string;
+  background: string;
+  foreground: string;
+}
+
+export interface IProjectSummary {
+  slug: string;
+  previewTitle: string;
+  previewDescription: string;
+  banner: IImage;
+  roundText: string;
+  webNumber: string;
+  projectNumber: number;
+  theme: IProjectTheme;
+}
+
 export interface ISingleProjectItem {
   slug: string;
   title: string;
-  previewTitle: string;
   description: string;
-  previewDescription: string;
   location: string;
   date: string;
   technologies: string;
   product: string;
-  banner: IImage;
-  roundText: string;
-  webNumber: string;
-  demoUrl: string;
-  liveUrl: string;
+  demoUrl: string | null;
+  liveUrl: string | null;
   content: {
     caseContent: {
       headlineNumber: string;
@@ -37,11 +48,6 @@ export interface ISingleProjectItem {
       paragraph3?: string;
       img?: IImage;
     }[];
-  };
-  theme: {
-    accent: string;
-    accentForeground: string;
-    background: string;
-    foreground: string;
-  };
+  } | null;
+  theme: IProjectTheme;
 }

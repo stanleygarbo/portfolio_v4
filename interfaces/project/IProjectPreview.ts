@@ -5,7 +5,6 @@ export interface IProjectPreview {
   date: string;
   technologies: string;
   product: string;
-  bannerURL: string;
-  demoUrl: string;
-  liveUrl?: string;
+  demoUrl: string | null;
+  liveUrl?: string | null;
 }

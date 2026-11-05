@@ -16,18 +16,16 @@ const CaseContent: React.FC<ICaseContent> = ({
   const { colors } = useTheme();
 
   return (
-    <Container colors={colors}>
+    <Container $colors={colors}>
       {!!img && (
         <div className="img-cont">
           <Image
-            alt=""
+            alt={headlineText ?? "Project screenshot"}
             src={img.url}
-            placeholder="blur"
-            blurDataURL={img.url}
-            objectFit="contain"
             width={img.width}
             height={img.height}
-            layout="responsive"
+            sizes="(max-width: 500px) calc(100vw - 60px), (max-width: 800px) calc(100vw - 100px), (max-width: 1300px) calc(100vw - 300px), 1000px"
+            style={{ width: "100%", height: "auto", objectFit: "contain" }}
           />
         </div>
       )}
@@ -55,8 +53,8 @@ const CaseContent: React.FC<ICaseContent> = ({
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     max-width: 1300px;
     margin: 45px auto;
     position: relative;
@@ -80,11 +78,8 @@ const Container = styled.div<{ colors: IColors }>`
       /* position: relative; */
       /* min-height: 650px; */
 
-      span {
-        overflow: unset !important;
-        img {
-          box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
-        }
+      img {
+        box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
       }
     }
 

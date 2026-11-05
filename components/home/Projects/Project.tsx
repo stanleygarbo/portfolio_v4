@@ -1,7 +1,7 @@
-import { useScrollPosition } from "@n8tb1t/use-scroll-position";
+import { useWindowScrollPosition } from "@n8tb1t/use-scroll-position";
+import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../../contexts/themeContext";
 import { IProject } from "../../../interfaces/Home/IProject";
@@ -14,12 +14,17 @@ const Project: React.FC<IProject> = ({
   title,
   description,
   img,
+  imageWidth,
+  imageHeight,
   roundTxt,
   webVer,
   customColors,
-  customBackground,
   slug,
 }) => {
+  const plainTitle = title
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   const { colors } = useTheme();
   const ref = useRef<HTMLDivElement | null>(null);
   const [showImg, setShowImg] = useState(false);
@@ -30,18 +35,23 @@ const Project: React.FC<IProject> = ({
     setCustomForeground,
     setCustomAccentForeground,
   } = useTheme();
-  const router = useRouter();
 
-  useScrollPosition(() => {
+  useEffect(() => {
+    if (!showImg) return;
+    const timer = setTimeout(
+      () => setHideImg(false),
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 700,
+    );
+    return () => clearTimeout(timer);
+  }, [showImg]);
+
+  useWindowScrollPosition(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
 
       // check if object is in viewport
       if (rect.top - (window.innerHeight - 200) < 0) {
         setShowImg(true);
-        setTimeout(() => {
-          setHideImg(false);
-        }, 700);
       }
       if (
         setCustomBodyColor &&
@@ -57,10 +67,10 @@ const Project: React.FC<IProject> = ({
         }
       }
     }
-  }, [ref, customBackground]);
+  });
 
   return (
-    <Container colors={colors}>
+    <Container $colors={colors}>
       <div className="text-group">
         <h3 dangerouslySetInnerHTML={{ __html: title }}></h3>
         <span>{webVer}</span>
@@ -72,10 +82,14 @@ const Project: React.FC<IProject> = ({
           }`}
         ></div>
         {hideImg && <div className="project-img__cover-bg"></div>}
-        <Link href={`/projects/${slug}`}>
-          <img
+        <Link href={`/projects/${slug}`} aria-label={`View ${plainTitle}`}>
+          <Image
             src={img}
-            alt=""
+            alt={plainTitle}
+            width={imageWidth}
+            height={imageHeight}
+            sizes="(max-width: 850px) calc(80vw - 48px), (max-width: 1300px) calc(80vw - 240px), 800px"
+            style={{ width: "100%", height: "auto" }}
             className={`project-img__${!hideImg && "shown"}`}
           />
         </Link>
@@ -85,9 +99,6 @@ const Project: React.FC<IProject> = ({
       </div>
       <p>{description}</p>
       <ContentBox
-        onClick={() => {
-          router.push(`/projects/${slug}`);
-        }}
         backgroundColor={
           colors.customForeground ? colors.customForeground : colors.foreground1
         }
@@ -98,8 +109,8 @@ const Project: React.FC<IProject> = ({
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     width: 100%;
     display: flex;
     flex-direction: column;

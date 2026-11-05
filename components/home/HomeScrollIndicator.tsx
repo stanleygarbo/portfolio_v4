@@ -13,7 +13,7 @@ const HomeScrollIndicator: React.FC<IHomeScrollIndicator> = ({
   const { colors } = useTheme();
 
   return (
-    <Container colors={colors} indicators={indicators}>
+    <Container $colors={colors} $indicators={indicators}>
       <ul className="list">
         <li className="list__item list__item--01">
           <span className="list__item__number">01</span>
@@ -37,10 +37,10 @@ const HomeScrollIndicator: React.FC<IHomeScrollIndicator> = ({
 };
 
 const Container = styled.aside<{
-  colors: IColors;
-  indicators: IIndicators;
+  $colors: IColors;
+  $indicators: IIndicators;
 }>`
-  ${({ colors, indicators }) => css`
+  ${({ $colors: colors, $indicators: indicators }) => css`
     position: fixed;
     right: 55px;
     bottom: 0;

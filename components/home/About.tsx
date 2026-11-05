@@ -11,12 +11,18 @@ const About: React.FC<{
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (containerRef.current)
-      setAboutSectionHeight(containerRef.current.clientHeight);
-  }, [containerRef]);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateHeight = () => setAboutSectionHeight(container.clientHeight);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [setAboutSectionHeight]);
 
   return (
-    <Container colors={colors} ref={containerRef} id="about">
+    <Container $colors={colors} ref={containerRef} id="about">
       <div className="wrapper wrapper--about">
         <h2>About Me.</h2>
         <p>
@@ -37,8 +43,8 @@ const About: React.FC<{
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     /* background: ${colors.background1}; */
     padding: 0 150px;
 

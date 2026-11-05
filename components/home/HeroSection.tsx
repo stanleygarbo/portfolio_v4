@@ -1,146 +1,81 @@
 import gsap from "gsap";
-import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import React, { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { GlobalVars } from "../../GlobalVars";
-import { IColors } from "../../interfaces/IColors";
-import { wait } from "../../util/wait";
+import type { IColors } from "../../interfaces/IColors";
 
-const HeroSection: React.FC<{
-  shouldDelay: boolean;
-  isWindowLoaded: boolean;
-}> = ({ shouldDelay, isWindowLoaded }) => {
-  const { colors, isDarkMode } = useTheme();
-  const [shouldShow, setShouldShow] = useState(false);
+const HeroSection: React.FC = () => {
+  const { colors } = useTheme();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isWindowLoaded) {
-      (async () => {
-        if (shouldDelay) {
-          await wait(1400);
-          setShouldShow(true);
-        } else {
-          await wait(1700);
-          setShouldShow(true);
-        }
-      })();
+    const context = gsap.context(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      gsap.fromTo(
-        ".hero-content__name",
+      gsap.from(
+        [
+          ".hero-content__name",
+          ".hero-content__tagline__first",
+          ".hero-content__tagline__second",
+          ".hero-content__tagline__third",
+          ".hero-content__cta",
+        ],
         {
-          y: 100,
+          y: 30,
           opacity: 0,
+          duration: 0.6,
+          stagger: 0.12,
+          clearProps: "transform,opacity",
         },
-        {
-          y: 0,
-          opacity: 1,
-          delay: 0.3,
-        }
       );
+    }, containerRef);
 
-      gsap.fromTo(
-        ".hero-content__tagline__first",
-        {
-          y: 100,
-        },
-        {
-          y: 0,
-          delay: 0.5,
-        }
-      );
-      gsap.fromTo(
-        ".hero-content__tagline__second",
-        {
-          y: 100,
-        },
-        {
-          y: 0,
-          delay: 0.7,
-        }
-      );
-
-      gsap.fromTo(
-        ".hero-content__tagline__third",
-        {
-          y: 95,
-        },
-        {
-          y: 0,
-          delay: 0.9,
-        }
-      );
-
-      gsap.fromTo(
-        ".hero-content__cta",
-        {
-          y: 55,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          delay: 1.1,
-          opacity: 1,
-        }
-      );
-    }
-  }, [isWindowLoaded, shouldDelay]);
+    return () => context.revert();
+  }, []);
 
   return (
-    <Container
-      id="hero"
-      colors={colors}
-      shouldDelay={shouldDelay}
-      shouldShow={shouldShow}
-      isDarkMode={isDarkMode}
-      isLoaded={isWindowLoaded}
-    >
-      <img className="lines" src="/lines.svg" alt="svg curved lines" />
-      <div className="cover ">
-        <i className="cover__text">Loading the greatness...</i>
-      </div>
+    <Container id="hero" $colors={colors} ref={containerRef}>
+      <Image
+        className="lines"
+        src="/lines.svg"
+        alt=""
+        width={243}
+        height={122}
+      />
       <div className="hero-content">
         <div className="hero-content__intro hero-content__name">
-          <div className="hero-content__intro__bullet"></div>
+          <div className="hero-content__intro__bullet" />
           Hi, I am&nbsp;<span>Stanley Garbo</span>
         </div>
         <h1 className="hero-content__tagline">
-          <div className="hero-content__tagline__cont overflow-hide">
-            <div className="hero-content__tagline__first">
+          <span className="hero-content__tagline__cont overflow-hide">
+            <span className="hero-content__tagline__first">
               I Craft Beautiful and
-            </div>
-          </div>
-          <div className="hero-content__tagline__cont overflow-hide">
-            <div className="hero-content__tagline__second">
+            </span>
+          </span>
+          <span className="hero-content__tagline__cont overflow-hide">
+            <span className="hero-content__tagline__second">
               Functional Solutions
-            </div>
-          </div>
-          <div className="hero-content__tagline__cont overflow-hide">
-            <div className="hero-content__tagline__third">
+            </span>
+          </span>
+          <span className="hero-content__tagline__cont overflow-hide">
+            <span className="hero-content__tagline__third">
               One Pixel at a Time
-            </div>
-          </div>
+            </span>
+          </span>
         </h1>
-        <button
-          className="hero-content__cta"
-          onClick={() => {
-            window.location.href = `mailto:${GlobalVars.email}`;
-          }}
-        >
+        <a className="hero-content__cta" href={`mailto:${GlobalVars.email}`}>
           hire me
-        </button>
+        </a>
       </div>
     </Container>
   );
 };
 
-const Container = styled.div<{
-  colors: IColors;
-  shouldDelay: boolean;
-  shouldShow: boolean;
-  isDarkMode: boolean;
-  isLoaded: boolean;
-}>`
-  ${({ colors, shouldDelay, shouldShow, isLoaded }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     height: 100vh;
     width: 100%;
     z-index: 1;
@@ -163,7 +98,7 @@ const Container = styled.div<{
       align-items: center;
       padding: 30px;
       position: relative;
-      z-index: ${isLoaded ? 1 : 10000};
+      z-index: 1;
 
       .hero-content {
         position: absolute;
@@ -178,13 +113,16 @@ const Container = styled.div<{
         justify-self: center;
         top: 0;
         display: block;
+        width: auto;
       }
 
       // background-size: 750px;
       // background-position-x: center;
     }
 
-    button {
+    .hero-content__cta {
+      text-decoration: none;
+      width: fit-content;
       position: relative;
       background: none;
       color: ${colors.accent};
@@ -237,49 +175,13 @@ const Container = styled.div<{
       }
     }
 
-    .cover {
-      background-color: ${colors.background2};
-      border-bottom: 2px solid #333;
-      border-top: 2px solid #333;
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-
-      z-index: 500;
-
-      transition: height 0.7s;
-      transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      ${!isLoaded
-        ? css`
-            height: 100%;
-          `
-        : css`
-            height: 0%;
-            top: -4px;
-          `}
-
-      &__text {
-        color: #fff;
-        opacity: 0;
-        transition: opacity 0.5s;
-        transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-        font-size: 20px;
-
-        ${!isLoaded &&
-        css`
-          opacity: 1;
-        `}
-      }
+    .overflow-hide {
+      display: block;
+      overflow: hidden;
     }
 
-    .overflow-hide {
-      overflow: hidden;
+    .hero-content__tagline__cont > span {
+      display: block;
     }
 
     .hero-content {

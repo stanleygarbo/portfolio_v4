@@ -2,33 +2,41 @@ import React, { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../../contexts/themeContext";
 import { IColors } from "../../../interfaces/IColors";
-import { ISingleProjectItem } from "../../../interfaces/IContentfulAPI";
+import type { IProjectSummary } from "../../../interfaces/IContentfulAPI";
 import Project from "./Project";
 
 const Projects: React.FC<{
   setProjectsSectionHeight: (height: number) => void;
-  projects: ISingleProjectItem[];
+  projects: IProjectSummary[];
 }> = ({ setProjectsSectionHeight, projects }) => {
   const { colors } = useTheme();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (containerRef.current)
-      setProjectsSectionHeight(containerRef.current.clientHeight);
-  }, [containerRef]);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateHeight = () => setProjectsSectionHeight(container.clientHeight);
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [setProjectsSectionHeight]);
 
   return (
-    <Container colors={colors} ref={containerRef} id="projects">
+    <Container $colors={colors} ref={containerRef} id="projects">
       <div className="wrapper">
         <h2>Projects.</h2>
         <div className="wrapper__projects">
-          {projects.map((i, idx) => (
+          {projects.map((i) => (
             <Project
-              key={idx}
+              key={i.slug}
               title={i.previewTitle}
               description={i.previewDescription}
               img={i.banner.url}
+              imageWidth={i.banner.width}
+              imageHeight={i.banner.height}
               roundTxt={i.roundText}
               webVer={i.webNumber}
               slug={i.slug}
@@ -46,8 +54,8 @@ const Projects: React.FC<{
   );
 };
 
-const Container = styled.div<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.div<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     position: relative;
     width: 100%;
     z-index: 1;
@@ -80,8 +88,8 @@ const Container = styled.div<{ colors: IColors }>`
 
         &::before {
           content: "03.";
-          font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono",
-            monospace;
+          font-family:
+            "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
           font-size: 18px;
           font-weight: 500;
           color: ${colors.customAccent ? colors.customAccent : colors.accent};

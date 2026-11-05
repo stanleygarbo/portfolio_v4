@@ -10,7 +10,7 @@ const Footer = () => {
   const { colors } = useTheme();
 
   return (
-    <Container colors={colors} id="contact">
+    <Container $colors={colors} id="contact">
       <h2>Like What You&apos;re Seeing?</h2>
       <p>Don&apos;t hesitate to contact me for inquiries or questions</p>
       <div className="socials">
@@ -44,8 +44,8 @@ const Footer = () => {
   );
 };
 
-const Container = styled.footer<{ colors: IColors }>`
-  ${({ colors }) => css`
+const Container = styled.footer<{ $colors: IColors }>`
+  ${({ $colors: colors }) => css`
     margin-top: 150px;
     background: #ffffff10;
     padding-top: 100px;

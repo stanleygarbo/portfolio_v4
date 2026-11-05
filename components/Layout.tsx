@@ -13,7 +13,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Container>
-      <GlobalStyle colors={colors} isIndexPage={router.pathname === "/"} />
+      <GlobalStyle $colors={colors} />
       <NavBar />
       <SideSocials />
       {router.pathname !== "/" && <VerticalEmail />}
@@ -23,10 +23,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const GlobalStyle = createGlobalStyle<{
-  colors: IColors;
-  isIndexPage: boolean;
+  $colors: IColors;
 }>`
-  ${({ colors, isIndexPage }) => css`
+  ${({ $colors: colors }) => css`
     * {
       margin: 0;
       padding: 0;
@@ -42,7 +41,6 @@ const GlobalStyle = createGlobalStyle<{
       overflow-x: hidden;
 
       transition: background 0.3s;
-      /* overflow: ${isIndexPage ? "hidden" : "auto"} !important; */
     }
 
     a {
@@ -52,6 +50,15 @@ const GlobalStyle = createGlobalStyle<{
     p {
       font-size: 16px;
       font-weight: 500;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   `}
 

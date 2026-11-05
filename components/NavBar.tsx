@@ -17,9 +17,7 @@ const NavBar: React.FC = () => {
     setIsActive(true);
   };
   const aniEnd = () => {
-    setTimeout(() => {
-      setIsActive(false);
-    }, 100);
+    setIsActive(false);
   };
   useEffect(() => {
     router.events.on("routeChangeStart", aniStart);
@@ -34,25 +32,35 @@ const NavBar: React.FC = () => {
   }, [router]);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    if (!isMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [isMenuOpen]);
 
   const onClickHandler = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((previous) => !previous);
   };
 
   return (
-    <Container colors={colors} isActive={isActive}>
+    <Container $colors={colors} $isActive={isActive}>
       <div className="cover">
         <i className="cover__text">Loading...</i>
       </div>
       <div className="wrapper">
-        <Link legacyBehavior href="/" passHref>
-          <a className="wrapper__logo">SG</a>
+        <Link
+          href="/"
+          className="wrapper__logo"
+          aria-label="Stanley Garbo home"
+        >
+          SG
         </Link>
         <div className="wrapper__right">
           <a
@@ -64,6 +72,10 @@ const NavBar: React.FC = () => {
             Resume
           </a>
           <button
+            type="button"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="navigation-menu"
             className={`hamburger-menu  ${
               isMenuOpen && "hamburger-menu--open"
             }`}
@@ -82,41 +94,35 @@ const NavBar: React.FC = () => {
           }`}
         ></div>
         <div
+          id="navigation-menu"
+          inert={!isMenuOpen}
           className={`menu-cont__links ${
             isMenuOpen && "menu-cont__links--open"
           }`}
         >
           <ul>
             <li>
-              <Link legacyBehavior href="/#hero">
-                <a onClick={onClickHandler}>
-                  <span>01 </span>
-                  Hero
-                </a>
+              <Link href="/#hero" onClick={onClickHandler}>
+                <span>01 </span>
+                Hero
               </Link>
             </li>
             <li>
-              <Link legacyBehavior href="/#about">
-                <a onClick={onClickHandler}>
-                  <span>02 </span>
-                  About
-                </a>
+              <Link href="/#about" onClick={onClickHandler}>
+                <span>02 </span>
+                About
               </Link>
             </li>
             <li>
-              <Link legacyBehavior href="/#projects">
-                <a onClick={onClickHandler}>
-                  <span>03 </span>
-                  Projects
-                </a>
+              <Link href="/#projects" onClick={onClickHandler}>
+                <span>03 </span>
+                Projects
               </Link>
             </li>
             <li>
-              <Link legacyBehavior href="/#contact">
-                <a onClick={onClickHandler}>
-                  <span>04 </span>
-                  Contact
-                </a>
+              <Link href="/#contact" onClick={onClickHandler}>
+                <span>04 </span>
+                Contact
               </Link>
             </li>
           </ul>
@@ -132,6 +138,7 @@ const NavBar: React.FC = () => {
             </a>
             <a
               className="menu-cont__links__ext__social"
+              aria-label="GitHub"
               href={GlobalVars.githubURL}
               target="_blank"
               rel="noreferrer"
@@ -140,6 +147,7 @@ const NavBar: React.FC = () => {
             </a>
             <a
               className="menu-cont__links__ext__social"
+              aria-label="LinkedIn"
               href={GlobalVars.linkedInURL}
               target="_blank"
               rel="noreferrer"
@@ -153,8 +161,8 @@ const NavBar: React.FC = () => {
   );
 };
 
-const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
-  ${({ colors, isActive }) => css`
+const Container = styled.nav<{ $colors: IColors; $isActive: boolean }>`
+  ${({ $colors: colors, $isActive: isActive }) => css`
     z-index: 15;
     position: fixed;
     top: 0;
@@ -234,8 +242,8 @@ const Container = styled.nav<{ colors: IColors; isActive: boolean }>`
               white-space: nowrap;
 
               span {
-                font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono",
-                  monospace;
+                font-family:
+                  "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
                 font-size: 18px;
                 font-weight: 500;
                 color: ${colors.customAccent
