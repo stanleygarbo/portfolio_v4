@@ -13,16 +13,17 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-test("renders the homepage without a loading screen or horizontal overflow", async ({
-  page,
-}) => {
+test("reveals the homepage without horizontal overflow", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "I Craft Beautiful and",
   );
-  await expect(page.locator("#hero .cover")).toHaveCount(0);
+  await expect(page.locator("[data-loading-screen]")).toHaveAttribute(
+    "data-phase",
+    "hidden",
+  );
   await expect(page.locator(".hero-content__cta")).toHaveCSS("opacity", "1");
   await expect(
     page.getByRole("link", { name: "hire me", exact: true }),
@@ -207,6 +208,7 @@ test("keeps the homepage usable without JavaScript", async ({
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(baseURL!);
+  await expect(page.locator("[data-loading-screen]")).toBeHidden();
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(
     page.getByRole("link", { name: "hire me", exact: true }),
@@ -217,6 +219,10 @@ test("keeps the homepage usable without JavaScript", async ({
 test("respects reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
+  await expect(page.locator("[data-loading-screen]")).toHaveAttribute(
+    "data-phase",
+    "hidden",
+  );
   await expect(page.locator(".hero-content__cta")).toHaveCSS("opacity", "1");
   await expect(page.locator(".hero-content__name")).toHaveCSS(
     "transform",

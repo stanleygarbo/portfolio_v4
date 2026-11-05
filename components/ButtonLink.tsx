@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "./SiteLink";
 import React from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../contexts/themeContext";

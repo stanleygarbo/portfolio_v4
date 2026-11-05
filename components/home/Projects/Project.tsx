@@ -2,7 +2,7 @@
 
 import { useWindowScrollPosition } from "@n8tb1t/use-scroll-position";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "../../SiteLink";
 import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../../contexts/themeContext";

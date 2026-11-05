@@ -5,14 +5,17 @@ import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
+import { useLoading } from "../LoadingProvider";
 import { GlobalVars } from "../../GlobalVars";
 import type { IColors } from "../../interfaces/IColors";
 
 const HeroSection: React.FC = () => {
   const { colors } = useTheme();
+  const { isReady } = useLoading();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!isReady) return;
     const context = gsap.context(() => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -35,7 +38,7 @@ const HeroSection: React.FC = () => {
     }, containerRef);
 
     return () => context.revert();
-  }, []);
+  }, [isReady]);
 
   return (
     <Container id="hero" $colors={colors} ref={containerRef}>

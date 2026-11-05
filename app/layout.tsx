@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
 import StyledComponentsRegistry from "../components/StyledComponentsRegistry";
+import LoadingProvider from "../components/LoadingProvider";
 import "@fontsource/poppins/200.css";
 import "@fontsource/poppins/300.css";
 import "@fontsource/poppins/400.css";
@@ -38,7 +39,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <LoadingProvider>{children}</LoadingProvider>
+        </StyledComponentsRegistry>
         {process.env.NODE_ENV === "production" && (
           <>
             <Script
