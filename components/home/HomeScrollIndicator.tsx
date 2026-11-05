@@ -9,36 +9,42 @@ import {
 } from "../../interfaces/Home/IHomeScrollIndicator";
 import { IColors } from "../../interfaces/IColors";
 
+const sections = [
+  { id: "hero", number: "01", label: "Hero" },
+  { id: "about", number: "02", label: "About" },
+  { id: "projects", number: "03", label: "Projects" },
+  { id: "contact", number: "04", label: "Contact" },
+] as const;
+
 const HomeScrollIndicator: React.FC<IHomeScrollIndicator> = ({
   indicators,
 }) => {
   const { colors } = useTheme();
 
   return (
-    <Container $colors={colors} $indicators={indicators}>
+    <Container
+      aria-label="Page sections"
+      $colors={colors}
+      $indicators={indicators}
+    >
       <ul className="list">
-        <li className="list__item list__item--01">
-          <span className="list__item__number">01</span>
-          <span className="list__item__name">Hero</span>
-        </li>
-        <li className="list__item list__item--02">
-          <span className="list__item__number">02</span>
-          <span className="list__item__name">About</span>
-        </li>
-        <li className="list__item list__item--03">
-          <span className="list__item__number">03</span>
-          <span className="list__item__name">Portfolio</span>
-        </li>
-        <li className="list__item list__item--04">
-          <span className="list__item__number">04</span>
-          <span className="list__item__name">Contact</span>
-        </li>
+        {sections.map(({ id, number, label }) => (
+          <li key={id} className={`list__item list__item--${number}`}>
+            <a
+              href={`#${id}`}
+              aria-label={`${number} ${label}`}
+              aria-current={indicators[id] ? "location" : undefined}
+            >
+              <span className="list__item__number">{number}</span>
+            </a>
+          </li>
+        ))}
       </ul>
     </Container>
   );
 };
 
-const Container = styled.aside<{
+const Container = styled.nav<{
   $colors: IColors;
   $indicators: IIndicators;
 }>`
@@ -55,13 +61,23 @@ const Container = styled.aside<{
         color: ${colors.customAccent
           ? colors.customAccent
           : colors.foreground1};
-        padding: 30px 0 30px 15px;
         position: relative;
         border-left: 1px dotted
           ${colors.customAccent ? colors.customAccent : colors.foreground1};
 
         font-size: 13px;
-        position: relative;
+
+        a {
+          display: block;
+          padding: 30px 0 30px 15px;
+          color: inherit;
+          text-decoration: none;
+
+          &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 4px;
+          }
+        }
 
         &::before {
           background: ${colors.customAccent
@@ -104,10 +120,6 @@ const Container = styled.aside<{
           &::before {
             opacity: ${indicators.contact ? "1" : "0"};
           }
-        }
-
-        &__name {
-          display: none;
         }
       }
     }

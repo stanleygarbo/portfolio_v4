@@ -33,14 +33,19 @@ export default function Home({ projects }: HomeProps) {
       bottom <
         window.innerHeight + aboutSectionHeight + projectsSectionHeight + 500;
 
+    const activeSection =
+      bottom >= document.documentElement.scrollHeight - 1
+        ? "contact"
+        : (["contact", "projects", "about", "hero"].find((id) => {
+            const section = document.getElementById(id);
+            return section && section.getBoundingClientRect().top <= 1;
+          }) ?? "hero");
+
     setIndicators({
-      hero: top <= 0,
-      about: top > 0 && bottom < window.innerHeight + aboutSectionHeight + 300,
-      projects: isProjectsActive,
-      contact:
-        top > 0 &&
-        bottom >
-          window.innerHeight + aboutSectionHeight + projectsSectionHeight + 500,
+      hero: activeSection === "hero",
+      about: activeSection === "about",
+      projects: activeSection === "projects",
+      contact: activeSection === "contact",
     });
 
     if (!isProjectsActive) {
