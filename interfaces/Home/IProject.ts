@@ -7,11 +7,4 @@ export interface IProject {
   roundTxt: string;
   webVer: string;
   slug: string;
-  customColors: {
-    accent: string;
-    foreground: string;
-    background: string;
-    accentForeground: string;
-  };
-  customBackground?: string;
 }

@@ -1,30 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../../contexts/themeContext";
 import { IColors } from "../../../interfaces/IColors";
 import type { IProjectSummary } from "../../../interfaces/IContentfulAPI";
 import Project from "./Project";
+import { useProjectTheme } from "./useProjectTheme";
 
 const Projects: React.FC<{
-  setProjectsSectionHeight: (height: number) => void;
   projects: IProjectSummary[];
-}> = ({ setProjectsSectionHeight, projects }) => {
+}> = ({ projects }) => {
   const { colors } = useTheme();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const updateHeight = () => setProjectsSectionHeight(container.clientHeight);
-    updateHeight();
-    const observer = new ResizeObserver(updateHeight);
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, [setProjectsSectionHeight]);
+  useProjectTheme(containerRef, projects);
 
   return (
     <Container $colors={colors} ref={containerRef} id="projects">
@@ -42,12 +33,6 @@ const Projects: React.FC<{
               roundTxt={i.roundText}
               webVer={i.webNumber}
               slug={i.slug}
-              customColors={{
-                background: i.theme.background,
-                accent: i.theme.accent,
-                foreground: i.theme.foreground,
-                accentForeground: i.theme.accentForeground,
-              }}
             />
           ))}
         </div>

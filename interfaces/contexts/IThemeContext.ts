@@ -1,11 +1,10 @@
-import { IColors } from "../IColors";
+import type { Dispatch, SetStateAction } from "react";
+import type { IColors } from "../IColors";
+import type { IProjectTheme } from "../IContentfulAPI";
 
 export interface IThemeContext {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   colors: IColors;
-  setCustomAccent?: React.Dispatch<React.SetStateAction<string>>;
-  setCustomAccentForeground?: React.Dispatch<React.SetStateAction<string>>;
-  setCustomBodyColor?: React.Dispatch<React.SetStateAction<string>>;
-  setCustomForeground?: React.Dispatch<React.SetStateAction<string>>;
+  setProjectTheme: Dispatch<SetStateAction<IProjectTheme | null>>;
 }

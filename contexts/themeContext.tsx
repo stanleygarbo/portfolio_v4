@@ -9,14 +9,13 @@ const themeContext = createContext<IThemeContext>({
   isDarkMode: true,
   toggleDarkMode: () => {},
   colors: colors.darkMode,
+  setProjectTheme: () => {},
 });
 
 const useThemeContext = (pageTheme?: IProjectTheme) => {
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const [customAccent, setCustomAccent] = useState("");
-  const [customAccentForeground, setCustomAccentForeground] = useState("");
-  const [customBodyColor, setCustomBodyColor] = useState("");
-  const [customForeground, setCustomForeground] = useState("");
+  const [projectTheme, setProjectTheme] = useState<IProjectTheme | null>(null);
+  const activeTheme = pageTheme ?? projectTheme;
 
   useEffect(() => {
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
@@ -31,16 +30,12 @@ const useThemeContext = (pageTheme?: IProjectTheme) => {
     toggleDarkMode,
     colors: {
       ...(isDarkMode ? colors.darkMode : colors.lightMode),
-      customAccent: pageTheme?.accent ?? customAccent,
-      customBodyColor: pageTheme?.background ?? customBodyColor,
-      customForeground: pageTheme?.foreground ?? customForeground,
-      customAccentForeground:
-        pageTheme?.accentForeground ?? customAccentForeground,
+      customAccent: activeTheme?.accent ?? "",
+      customBodyColor: activeTheme?.background ?? "",
+      customForeground: activeTheme?.foreground ?? "",
+      customAccentForeground: activeTheme?.accentForeground ?? "",
     },
-    setCustomAccent,
-    setCustomBodyColor,
-    setCustomForeground,
-    setCustomAccentForeground,
+    setProjectTheme,
   };
 };
 

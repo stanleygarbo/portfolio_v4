@@ -31,6 +31,8 @@ Requests have a ten-second timeout and retry transient network, rate-limit, and 
 Routes use the App Router, with Server Components for Contentful fetching and metadata.
 The homepage and project layouts share the site shell, with project colors supplied on the server before the first paint.
 Client Components handle the theme context, navigation menu, scroll effects, and animations.
+The landing-page palette follows the project at the viewport center, switching halfway through the gap between adjacent cards.
+One controller updates the complete palette, observes layout changes, and batches scroll measurements into animation frames.
 Contentful requests are deduplicated across metadata, layouts, and pages during each server render.
 Static route regeneration caches the validated page, while regeneration requests fresh CMS data without a separate fetch cache.
 

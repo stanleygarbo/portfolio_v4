@@ -54,12 +54,12 @@ const GlobalStyle = createGlobalStyle<{
     }
 
     body {
-      background: ${colors.customBodyColor
+      background-color: ${colors.customBodyColor
         ? colors.customBodyColor
         : colors.background1};
       overflow-x: hidden;
 
-      transition: background 0.3s;
+      transition: background-color 0.35s ease;
     }
 
     a {

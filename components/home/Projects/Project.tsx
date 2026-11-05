@@ -20,7 +20,6 @@ const Project: React.FC<IProject> = ({
   imageHeight,
   roundTxt,
   webVer,
-  customColors,
   slug,
 }) => {
   const plainTitle = title
@@ -31,12 +30,6 @@ const Project: React.FC<IProject> = ({
   const ref = useRef<HTMLDivElement | null>(null);
   const [showImg, setShowImg] = useState(false);
   const [hideImg, setHideImg] = useState(true);
-  const {
-    setCustomBodyColor,
-    setCustomAccent,
-    setCustomForeground,
-    setCustomAccentForeground,
-  } = useTheme();
 
   useEffect(() => {
     if (!showImg) return;
@@ -55,24 +48,11 @@ const Project: React.FC<IProject> = ({
       if (rect.top - (window.innerHeight - 200) < 0) {
         setShowImg(true);
       }
-      if (
-        setCustomBodyColor &&
-        setCustomAccent &&
-        setCustomForeground &&
-        setCustomAccentForeground
-      ) {
-        if (rect.top - (window.innerHeight - 100) < 0 && rect.top + 300 > 0) {
-          setCustomBodyColor(customColors.background);
-          setCustomAccent(customColors.accent);
-          setCustomForeground(customColors.foreground);
-          setCustomAccentForeground(customColors.accentForeground);
-        }
-      }
     }
   });
 
   return (
-    <Container $colors={colors}>
+    <Container $colors={colors} data-project-slug={slug}>
       <div className="text-group">
         <h3 dangerouslySetInnerHTML={{ __html: title }}></h3>
         <span>{webVer}</span>

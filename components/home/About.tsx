@@ -1,30 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 import { useTheme } from "../../contexts/themeContext";
 import { IColors } from "../../interfaces/IColors";
 
-const About: React.FC<{
-  setAboutSectionHeight: (height: number) => void;
-}> = ({ setAboutSectionHeight }) => {
+const About: React.FC = () => {
   const { colors } = useTheme();
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const updateHeight = () => setAboutSectionHeight(container.clientHeight);
-    updateHeight();
-    const observer = new ResizeObserver(updateHeight);
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, [setAboutSectionHeight]);
-
   return (
-    <Container $colors={colors} ref={containerRef} id="about">
+    <Container $colors={colors} id="about">
       <div className="wrapper wrapper--about">
         <h2>About Me.</h2>
         <p>
