@@ -33,6 +33,8 @@ The homepage and project layouts share the site shell, with project colors suppl
 Client Components handle the theme context, navigation menu, scroll effects, and animations.
 The original loading cover waits for hydration and fonts on the initial visit, then slides upward as the hero appears.
 A shared provider covers the current page before starting App Router navigation and reveals the destination after the navigation completes.
+Browser Back and Forward use the same transition while retaining the original history entries and cached route state.
+On browsers with the Navigation API, scroll positions are saved per history entry and restored beneath the cover.
 Section links remain instant, and loading respects reduced motion and browsing without JavaScript.
 The landing-page palette follows the project at the viewport center, switching halfway through the gap between adjacent cards.
 One controller updates the complete palette, observes layout changes, and batches scroll measurements into animation frames.

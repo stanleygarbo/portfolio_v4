@@ -12,9 +12,13 @@ import {
   useTransition,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styled, { keyframes } from "styled-components";
 import { initialLoadingState, loadingReducer } from "../lib/loadingState";
+import {
+  manageHistoryScroll,
+  type HistoryScrollController,
+} from "../lib/historyScroll";
 
 interface NavigationOptions {
   replace?: boolean;
@@ -22,9 +26,18 @@ interface NavigationOptions {
   transitionTypes?: string[];
 }
 
-interface NavigationRequest extends NavigationOptions {
+interface LinkNavigationRequest extends NavigationOptions {
+  type: "link";
   href: string;
 }
+
+type NavigationRequest =
+  | LinkNavigationRequest
+  | {
+      type: "history";
+      href: string;
+      event: PopStateEvent;
+    };
 
 const NAVIGATION_ID = "page-navigation";
 
@@ -44,10 +57,15 @@ export function useLoading() {
 
 export default function LoadingProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [state, dispatch] = useReducer(loadingReducer, initialLoadingState);
   const [navigation, setNavigation] = useState<NavigationRequest | null>(null);
   const [isPending, startTransition] = useTransition();
   const contentRef = useRef<HTMLDivElement>(null);
+  const renderedRouteRef = useRef<string | null>(null);
+  const replayedHistoryEventRef = useRef<PopStateEvent | null>(null);
+  const historyScrollRef = useRef<HistoryScrollController | null>(null);
+  const restoreScrollRef = useRef<(() => void) | null>(null);
   const visible = state.phase !== "hidden";
   const setPending = useCallback((id: string, pending: boolean) => {
     dispatch({
@@ -60,40 +78,92 @@ export default function LoadingProvider({ children }: { children: ReactNode }) {
 
   const navigate = useCallback(
     (href: string, options: NavigationOptions) => {
+      restoreScrollRef.current = null;
       setPending(NAVIGATION_ID, true);
-      setNavigation({ href, ...options });
+      setNavigation({ type: "link", href, ...options });
     },
     [setPending],
   );
 
   useEffect(() => {
     if (state.phase !== "covered" || !navigation) return;
-    // Keep both the URL and current page intact until the cover has arrived.
+    // Commit the destination content only once the cover has arrived.
     startTransition(() => {
       setNavigation(null);
-      const { href, replace, ...options } = navigation;
-      if (replace) router.replace(href, options);
-      else router.push(href, options);
+      if (navigation.type === "history") {
+        if (navigation.href !== window.location.href) return;
+        // Resume the original history entry so Next.js retains its cached state.
+        const replay = new PopStateEvent("popstate", {
+          state: navigation.event.state,
+        });
+        replayedHistoryEventRef.current = replay;
+        try {
+          window.dispatchEvent(replay);
+        } finally {
+          replayedHistoryEventRef.current = null;
+        }
+      } else {
+        const { href, replace, scroll, transitionTypes } = navigation;
+        if (replace) router.replace(href, { scroll, transitionTypes });
+        else router.push(href, { scroll, transitionTypes });
+      }
     });
   }, [navigation, router, state.phase]);
 
   useEffect(() => {
     if (!navigation && !isPending && state.pending.includes(NAVIGATION_ID)) {
       // Let the destination's DOM settle before the cover can disappear.
-      const frame = requestAnimationFrame(() =>
-        setPending(NAVIGATION_ID, false),
-      );
+      const frame = requestAnimationFrame(() => {
+        restoreScrollRef.current?.();
+        restoreScrollRef.current = null;
+        historyScrollRef.current?.commit();
+        setPending(NAVIGATION_ID, false);
+      });
       return () => cancelAnimationFrame(frame);
     }
   }, [navigation, isPending, state.pending, setPending]);
 
   useEffect(() => {
-    const cancelQueuedNavigation = () => {
-      setNavigation(null);
-      setPending(NAVIGATION_ID, false);
+    if (!navigation && !isPending) {
+      renderedRouteRef.current = `${pathname}${window.location.search}`;
+    }
+  }, [pathname, navigation, isPending]);
+
+  useEffect(() => {
+    const controller = manageHistoryScroll(() => renderedRouteRef.current);
+    historyScrollRef.current = controller;
+    return () => {
+      controller?.dispose();
+      historyScrollRef.current = null;
     };
-    window.addEventListener("popstate", cancelQueuedNavigation);
-    return () => window.removeEventListener("popstate", cancelQueuedNavigation);
+  }, []);
+
+  useEffect(() => {
+    const onPopState = (event: PopStateEvent) => {
+      if (event === replayedHistoryEventRef.current) return;
+      const restoreScroll = historyScrollRef.current?.prepareRestoration();
+      const destinationRoute = `${window.location.pathname}${window.location.search}`;
+      if (
+        event.state == null ||
+        destinationRoute === renderedRouteRef.current
+      ) {
+        // Same-page history jumps also cancel any link waiting for the cover.
+        setNavigation(null);
+        setPending(NAVIGATION_ID, false);
+        restoreScrollRef.current = null;
+        if (restoreScroll) requestAnimationFrame(restoreScroll);
+        return;
+      }
+
+      // Run before the router's listener, then replay only once fully covered.
+      event.stopImmediatePropagation();
+      restoreScrollRef.current = restoreScroll ?? null;
+      setPending(NAVIGATION_ID, true);
+      setNavigation({ type: "history", href: window.location.href, event });
+    };
+    window.addEventListener("popstate", onPopState, { capture: true });
+    return () =>
+      window.removeEventListener("popstate", onPopState, { capture: true });
   }, [setPending]);
 
   useEffect(() => {

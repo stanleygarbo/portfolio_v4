@@ -157,11 +157,19 @@ test("preserves server-rendered project colors through browser history", async (
 
     await page.goBack();
     await expect(page).toHaveURL("/");
+    await expect(page.locator("[data-loading-screen]")).toHaveAttribute(
+      "data-phase",
+      "hidden",
+    );
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect(page.locator("body")).toHaveCSS("background-color", homeColor);
 
     await page.goForward();
     await expect(page).toHaveURL(new URL(projectPath!, baseURL!).href);
+    await expect(page.locator("[data-loading-screen]")).toHaveAttribute(
+      "data-phase",
+      "hidden",
+    );
     await expect(page.locator("body")).toHaveCSS(
       "background-color",
       serverColor,
